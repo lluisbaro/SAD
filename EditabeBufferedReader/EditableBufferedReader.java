@@ -3,6 +3,9 @@ import java.io.*;
 
 public class EditableBufferedReader extends BufferedReader{
 	//declarem variables CTE
+	private volatile boolean flagBarret = false;
+	private volatile boolean flagComandMode  = false;
+	private 
 	public static final int FLETXA_ESQ;
 	public static final int FLETXA_DRT;
 	public static final int INICIO;
@@ -16,7 +19,7 @@ public class EditableBufferedReader extends BufferedReader{
 	
 	public void setRaw(){
 		try{
-		//API Runtime.exec()
+		
 			ProcessBuilder process = new ProcessBuilder();
 			process.command("sh", "-c", "stty -echo raw </dev/tty");
 			process.start();
@@ -43,65 +46,53 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public int read() throws IOException{
-		
-		try{
-
-			car = new int[10];
-
-			if (car[0] == ) {
-				
-			})
-		
-		
-		
-		
-		
-			int car[10] = 0;
-		
-			if ( car[4] == "^[[D" ) return FLETXA_ESQ;
-		
-			if
-		
-			^[[L
-		
-			return car [0];
-		
-			if ( car == "fletxa esquerra") return FLETXA_ESQ;
-		
-			//llegir dades
-			gg
-		
-			//guardar 
-		
-			//comparar el llegit
-		
-			if ( a == [[D)
-			fes fletxa esq
-		
-	
-			return super.read();
+		char car = (char)super.read();
+		switch(car){
+			case('^'):
+				this.flagBarret = true;
+				break;
+			case('['):
+				if(this.flagBarret)
+					this.flagCommandMode = true;
+				this.flagBarret = false;
+				break;
+		if(this.flagCommandMode){
+			//Borrar el barret de line és a dir borrar la última entrada
 			
+			//Llegir les dues següents entrades que corresponen a les comandes:
+			String comanda = super.read()+super.read();
+			switch(comanda){
+				case "[D":
+					//Mètode de line per tirar el cursor enrere
+					break;
+				case "[C":
+					//Mètode de line per tirar el cursor endavant
+					break;
+				case "OH":
+					//Mètode de line que posa el cursor a l'inici de línia
+					break;
+				case "OF":
+					//mètode que line posa el cursor al final de la línia
+					break;
+				case "2~":
+					//mètide que implementa insert
+					break;
+				case "":
+					//Trobar com es rep el backspace
+					break;
+			}
+			this.flagCommandMode = false;
 			
-		} catch (IOException e){
-			e.printStackTrace();
-		}		
+
+
+		}
 	}
 	
 	public String readLine() throws IOException{
-
-		// aqui fem el bucle i invoquema setRaw i unsetRar
-		try{
-			setRaw();
-		
-			while(car = this.read()){
-				this.read();
-
-				car = 0;
-			}
-			return super.readLine();
-		} finally{
-			unsetRaw();
+		while(true){
+			this.read();
 		}
+		return super.readLine();
 	
 	}
 	
