@@ -89,11 +89,15 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public String readLine() throws IOException{
-		while(true){
-			this.read();
+		// Aqui fem el setRaw i unsetRaw
+		try{
+			while(true){
+				this.read();
+			}
+			return super.readLine();
+		} finally{
+			unsetRaw();
 		}
-		return super.readLine();
-	
 	}
 	
 }
