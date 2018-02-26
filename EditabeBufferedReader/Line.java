@@ -1,34 +1,47 @@
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
 public class Line{
-	public int index;
-	public ArrayList<char> bus = new ArrayList<char>();
-	
-	//Constructor
+
+	public int pos;
+	public ArrayList<Character> line;
+
 	public Line(){
-		index = 0;
+		pos = 0;
+		line = new ArrayList<Character>();
 	}
-	
-	public void write(char car){
-		this.bus.add(index, car);
-		this.index++;
+
+	public int getPos(){
+		return this.pos;
 	}
-	
+
+	public void addChar(char car){
+		this.line.add(this.pos,car);
+		this.pos ++;
+	}
+
 	public void delete(){
-		this.index--;
-		this.bus.remove(this.index);
+		this.pos --;
+		this.line.remove(this.pos);
 	}
-	
-	public void goLeft(){
-		if(this.index>0)
-			this.index--;
-	}
-	public void goRight(){
-		if(this.index>(bus.size-1))
-			this.index++;
-	}
+
 	public void supr(){
-		this.bus.remove(this.index);
-		this.index--;
+		this.line.remove(this.pos);
+		this.pos --;
 	}
-	
+
+	public void goLeft(){
+		if (this.pos > (line.size() - 1)){
+			this.pos++;
+		}
+	}
+
+	public void goRight(){
+		if (pos > 0){
+			this.pos --;
+		}
+	}
+
 
 }

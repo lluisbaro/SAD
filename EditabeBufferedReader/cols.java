@@ -1,30 +1,22 @@
 import java.io.*;
-import java.lang.*;
 
-
-public class cols extends Runtime{
+public class cols{
 
 	public static void main(String[] args) throws IOException{
+		int cols, lines;
 	
 		try{
-			//ProcessBuilder p = new ProcessBuilder("src/cols.sh");
-			//p.command("sh", "-c", "stty size </dev/tty");
-			//p.start();
 
-			Process p = Runtime.getRuntime().exec("stty size"); 
-			
-			/*System.out.println("sdf");
-			ProcessBuilder process = new ProcessBuilder();
-			process.command("sh", "-c", "stty size </dev/tty");
-			process.start();
-			System.out.println("Enter in raw mode");
-			*/
+			Process p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "tput cols </dev/tty"});
+			cols = Integer.parseInt(new BufferedReader(new InputStreamReader(p.getInputStream())).readLine());
+			System.out.println("COL: " + cols);
+
+			Process pl = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "tput lines </dev/tty"});
+			lines = Integer.parseInt(new BufferedReader(new InputStreamReader(pl.getInputStream())).readLine());
+			System.out.println("LINES: " + lines);
+
 		}catch(IOException e){
 			e.printStackTrace();
-			System.exit(-1);
 		}
 	}
-	
-	
 }
-

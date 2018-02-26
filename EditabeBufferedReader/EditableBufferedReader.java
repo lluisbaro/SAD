@@ -1,17 +1,18 @@
 import java.io.*;
+import java.lang.*;
 
 
 public class EditableBufferedReader extends BufferedReader{
 	//declarem variables CTE
-	private volatile boolean flagBarret = false;
-	private volatile boolean flagComandMode  = false;
-	private 
-	public static final int FLETXA_ESQ;
-	public static final int FLETXA_DRT;
-	public static final int INICIO;
-	public static final int FIN;
-	public static final int INSERT;
-	public static final int SUPR;
+	public static final int ESC = 27;
+	public static final int CSI = 0x9B;
+	public static final int CR = 13;
+	public static final int FLETXA_ESQ = -2;
+	public static final int FLETXA_DRT = -3;
+	public static final int HOME = -4;
+	public static final int FIN = -5;
+	public static final int INSERT = -6;
+	public static final int SUPR = -7;
 	
 	public EditableBufferedReader(InputStreamReader in){
 		super(in);
@@ -19,11 +20,16 @@ public class EditableBufferedReader extends BufferedReader{
 	
 	public void setRaw(){
 		try{
-		
-			ProcessBuilder process = new ProcessBuilder();
-			process.command("sh", "-c", "stty -echo raw </dev/tty");
-			process.start();
-			System.out.println("Enter in raw mode");
+
+			String[] command = {"/bin/sh", "-c", "stty -echo raw </dev/tty"};
+		// Runtime.exec()	
+			Runtime.getRuntime().exec(command);
+
+		//ProcessBuilder 
+		//	ProcessBuilder p = new ProcessBuilder();
+		//	p.command("sh", "-c", "stty -echo raw </dev/tty").start();
+		//	p.command(command).start();
+		//	System.out.println("Enter in raw mode");	// Comprovem que entra en RAW mode
 			
 		}catch(IOException e){
 			e.printStackTrace();
@@ -33,11 +39,15 @@ public class EditableBufferedReader extends BufferedReader{
 	
 	public void unsetRaw(){
 		try{
-		
-			ProcessBuilder process = new ProcessBuilder();
-			process.command("sh", "-c", "stty echo -raw </dev/tty");
-			process.start();
-			System.out.println("Enter in cooked mode");
+
+			String[] command = {"/bin/sh", "-c", "stty sane </dev/tty"}; // stty sane | stty echo -raw ...
+		//	Runtime.exec()
+		//	Runtime.getRuntime().exec(command);
+
+		//	ProcessBuilder
+			ProcessBuilder p = new ProcessBuilder();
+			p.command(command).start();
+		//	System.out.println("Enter in cooked mode");	// Comprovem que surt del RAW mode
 			
 		}catch(IOException e){
 			e.printStackTrace();
@@ -46,59 +56,108 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public int read() throws IOException{
-		char car = (char)super.read();
-		switch(car){
-			case('^'):
-				this.flagBarret = true;
-				break;
-			case('['):
-				if(this.flagBarret)
-					this.flagCommandMode = true;
-				this.flagBarret = false;
-				break;
-		if(this.flagCommandMode){
-			//Borrar el barret de line és a dir borrar la última entrada
-			
-			//Llegir les dues següents entrades que corresponen a les comandes:
-			String comanda = super.read()+super.read();
-			switch(comanda){
-				case "[D":
-					//Mètode de line per tirar el cursor enrere
-					break;
-				case "[C":
-					//Mètode de line per tirar el cursor endavant
-					break;
-				case "OH":
-					//Mètode de line que posa el cursor a l'inici de línia
-					break;
-				case "OF":
-					//mètode que line posa el cursor al final de la línia
-					break;
-				case "2~":
-					//mètide que implementa insert
-					break;
-				case "":
-					//Trobar com es rep el backspace
-					break;
+		int car = -1;
+		
+		try{
+			if ( (car = super.read()) == ESC){
+				System.out.println("hi ha ESC");
+				if ((car = super.read()) == '['){
+					System.out.println("Ha llegit [");
+					switch (car = super.read()){
+							case 'D':
+								System.out.println("Ha llegit FLETXA_ESQ");
+								car = FLETXA_ESQ;
+
+								break;
+							case 'C':
+								System.out.println("Ha llegit FLETXA_DRT");
+								car = FLETXA_DRT;
+								break;
+							case '3': // Real es ^[[3~ pero entenem que despres vindra el ~
+								System.out.println("Ha llegit SUPR");
+								car = SUPR;
+								break;
+							case 'H':
+								System.out.println("Ha llegit HOME");
+								car = HOME;
+								break;
+							case '2': // Real es ^[[2~ pero entenem que despres vindra el ~
+								System.out.println("Ha llegit INSERT");
+								car = INSERT;
+								break;
+							case 'F':
+								System.out.println("Ha llegit FIN");
+								car = FIN;
+								break;
+							default: 
+								System.out.println("Seq de ESC no valida");
+								car = super.read();
+						}
+				}
+
 			}
-			this.flagCommandMode = false;
+		//	else System.out.println("No hi ha seq ESC");	// Per comprova que no hi ha seq ESC
 			
 
-
+		} catch (IOException e){
+			e.printStackTrace();
+		} finally{
+			return car;
 		}
 	}
 	
 	public String readLine() throws IOException{
-		// Aqui fem el setRaw i unsetRaw
+
+		// aqui fem el bucle i invoquema setRaw i unsetRar
+		int caracter;
+		Line line = new Line();
+		String frase = null;
+
 		try{
-			while(true){
-				this.read();
+			this.setRaw();
+			caracter = this.read();
+			line.addChar((char)caracter);
+			frase = String.valueOf(caracter);
+			System.out.print((char)caracter); 	//Comprova el primer caracter
+
+			while( caracter != CR){
+
+				
+				switch (caracter){
+					case FLETXA_ESQ:
+					System.out.println("ESQ");
+					line.goLeft();
+					break;
+					case FLETXA_DRT:
+					System.out.println("DRETA");
+					break;
+					case SUPR:
+					System.out.println("SUPR");
+					break;
+					case HOME:
+					System.out.println("HOME");
+					break;
+					case INSERT:
+					System.out.println("INSERT");
+					break;
+					case FIN:
+					System.out.println("FIN");
+					break;
+				}
+				caracter = this.read();
+				if (caracter != CR){ 
+					line.addChar((char)caracter);
+					frase = frase + String.valueOf(caracter);
+					System.out.print((char)caracter);
+				}
 			}
-			return super.readLine();
-		} finally{
-			unsetRaw();
+			this.unsetRaw();
+		} finally {}
+		try{
+		//	return line.toString();
+			return frase;
 		}
+		finally{}
 	}
 	
 }
-
