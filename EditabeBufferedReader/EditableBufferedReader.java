@@ -117,7 +117,6 @@ public class EditableBufferedReader extends BufferedReader{
 					System.out.print((char)caracter);
 					frase = frase+(char)caracter;
 				}
-				System.out.print((char)caracter);
 				caracter = this.read();
 
 			}
