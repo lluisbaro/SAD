@@ -56,8 +56,9 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public int read() throws IOException{
+		int car =0;
 		try{
-			int car = super.read();
+			car = super.read();
 			if (car == ESC){
 				System.out.println("hi ha ESC");
 				if ((car = super.read()) == '['){
@@ -105,14 +106,14 @@ public class EditableBufferedReader extends BufferedReader{
 	
 	public String readLine() throws IOException{
 		// aqui fem el bucle i invoquema setRaw i unsetRar
+		int caracter;
+		String frase = null;
 		try{
-			int caracter;
-			String frase = null;
 			this.setRaw();
 			caracter = this.read();
 			while(caracter != CR){
 				if (caracter != -1){
-					line.addChar((char)caracter);
+					linia.addChar((char)caracter);
 					System.out.print((char)caracter);
 					frase = frase+(char)caracter;
 				}
