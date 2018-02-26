@@ -13,9 +13,11 @@ public class EditableBufferedReader extends BufferedReader{
 	public static final int FIN = -5;
 	public static final int INSERT = -6;
 	public static final int SUPR = -7;
+	private final Line linia;
 	
 	public EditableBufferedReader(InputStreamReader in){
 		super(in);
+		linia = new Line();
 	}
 	
 	public void setRaw(){
@@ -24,13 +26,11 @@ public class EditableBufferedReader extends BufferedReader{
 			String[] command = {"/bin/sh", "-c", "stty -echo raw </dev/tty"};
 		// Runtime.exec()	
 			Runtime.getRuntime().exec(command);
-
 		//ProcessBuilder 
 		//	ProcessBuilder p = new ProcessBuilder();
 		//	p.command("sh", "-c", "stty -echo raw </dev/tty").start();
 		//	p.command(command).start();
 		//	System.out.println("Enter in raw mode");	// Comprovem que entra en RAW mode
-			
 		}catch(IOException e){
 			e.printStackTrace();
 			System.exit(-1);
@@ -56,38 +56,37 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public int read() throws IOException{
-		int car = -1;
-		
 		try{
-			if ( (car = super.read()) == ESC){
+			int car = super.read();
+			if (car == ESC){
 				System.out.println("hi ha ESC");
 				if ((car = super.read()) == '['){
 					System.out.println("Ha llegit [");
+					car = -1;
 					switch (car = super.read()){
 							case 'D':
 								System.out.println("Ha llegit FLETXA_ESQ");
-								car = FLETXA_ESQ;
-
+								linia.goLeft();
 								break;
 							case 'C':
 								System.out.println("Ha llegit FLETXA_DRT");
-								car = FLETXA_DRT;
+								linia.goRight();
 								break;
 							case '3': // Real es ^[[3~ pero entenem que despres vindra el ~
 								System.out.println("Ha llegit SUPR");
-								car = SUPR;
+								linia.delete();
 								break;
 							case 'H':
 								System.out.println("Ha llegit HOME");
-								car = HOME;
+								//Cridar HOME a línia
 								break;
 							case '2': // Real es ^[[2~ pero entenem que despres vindra el ~
 								System.out.println("Ha llegit INSERT");
-								car = INSERT;
+								//Cridar insert a view
 								break;
 							case 'F':
 								System.out.println("Ha llegit FIN");
-								car = FIN;
+								//Cridar FIN
 								break;
 							default: 
 								System.out.println("Seq de ESC no valida");
@@ -97,8 +96,6 @@ public class EditableBufferedReader extends BufferedReader{
 
 			}
 		//	else System.out.println("No hi ha seq ESC");	// Per comprova que no hi ha seq ESC
-			
-
 		} catch (IOException e){
 			e.printStackTrace();
 		} finally{
@@ -107,57 +104,27 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public String readLine() throws IOException{
-
 		// aqui fem el bucle i invoquema setRaw i unsetRar
-		int caracter;
-		Line line = new Line();
-		String frase = null;
-
 		try{
+			int caracter;
+			String frase = null;
 			this.setRaw();
 			caracter = this.read();
-			line.addChar((char)caracter);
-			frase = String.valueOf(caracter);
-			System.out.print((char)caracter); 	//Comprova el primer caracter
-
-			while( caracter != CR){
-
-				
-				switch (caracter){
-					case FLETXA_ESQ:
-					System.out.println("ESQ");
-					line.goLeft();
-					break;
-					case FLETXA_DRT:
-					System.out.println("DRETA");
-					break;
-					case SUPR:
-					System.out.println("SUPR");
-					break;
-					case HOME:
-					System.out.println("HOME");
-					break;
-					case INSERT:
-					System.out.println("INSERT");
-					break;
-					case FIN:
-					System.out.println("FIN");
-					break;
-				}
-				caracter = this.read();
-				if (caracter != CR){ 
+			while(caracter != CR){
+				if (caracter != -1){
 					line.addChar((char)caracter);
-					frase = frase + String.valueOf(caracter);
 					System.out.print((char)caracter);
+					frase = frase+(char)caracter;
 				}
+				System.out.print((char)caracter);
+				caracter = this.read();
+
 			}
 			this.unsetRaw();
-		} finally {}
-		try{
-		//	return line.toString();
+		} finally {
 			return frase;
 		}
-		finally{}
+			
 	}
 	
 }

@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Line{
 
-	public int pos;
-	public ArrayList<Character> line;
+	private int pos;
+	private ArrayList<Character> line;
 
 	public Line(){
 		pos = 0;
