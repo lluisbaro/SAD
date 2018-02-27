@@ -44,8 +44,11 @@ public class Line{
 	}
 
 	public String toString(){
-		return this.line.toString();
-
+		String str = this.line.get(0).toString();
+		for (int i=1;i<this.line.size(); i++){
+			str = str+this.line.get(i).toString();
+		}
+		return str;
 	}
 
 
