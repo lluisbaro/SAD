@@ -120,8 +120,8 @@ public class EditableBufferedReader extends BufferedReader{
 				caracter = this.read();
 
 			}
-			this.unsetRaw();
 		} finally {
+			this.unsetRaw();
 			return frase;
 		}
 			
