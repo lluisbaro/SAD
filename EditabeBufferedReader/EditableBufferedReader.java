@@ -58,6 +58,9 @@ public class EditableBufferedReader extends BufferedReader{
 	public int read() throws IOException{
 		int car = 0;
 		try{
+			/*car=super.read();
+			System.out.println(car);*/  //Per comprovar que printa cada cosa
+			
 			if ((car = super.read()) == ESC){
 				System.out.print("     hi ha ESC");
 				if ((car = super.read()) == '['){
