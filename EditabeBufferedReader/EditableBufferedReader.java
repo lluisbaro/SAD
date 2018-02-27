@@ -56,47 +56,46 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public int read() throws IOException{
-		int car =0;
+		int car = 0;
 		try{
-			car = super.read();
-			if (car == ESC){
-				System.out.println("hi ha ESC");
+			if ((car = super.read()) == ESC){
+				System.out.print("     hi ha ESC");
 				if ((car = super.read()) == '['){
-					System.out.println("Ha llegit [");
-					car = -1;
+					System.out.print("      Ha llegit [");
 					switch (car = super.read()){
-							case 'D':
-								System.out.println("Ha llegit FLETXA_ESQ");
-								linia.goLeft();
-								break;
-							case 'C':
-								System.out.println("Ha llegit FLETXA_DRT");
-								linia.goRight();
-								break;
-							case '3': // Real es ^[[3~ pero entenem que despres vindra el ~
-								System.out.println("Ha llegit SUPR");
-								linia.delete();
-								break;
-							case 'H':
-								System.out.println("Ha llegit HOME");
-								//Cridar HOME a línia
-								break;
-							case '2': // Real es ^[[2~ pero entenem que despres vindra el ~
-								System.out.println("Ha llegit INSERT");
-								//Cridar insert a view
-								break;
-							case 'F':
-								System.out.println("Ha llegit FIN");
-								//Cridar FIN
-								break;
-							default: 
-								System.out.println("Seq de ESC no valida");
-								car = super.read();
-						}
+						case 'D':
+							System.out.print("      Ha llegit FLETXA_ESQ");
+							linia.goLeft();
+							break;
+						case 'C':
+							System.out.print("      Ha llegit FLETXA_DRT");
+							linia.goRight();
+							break;
+						case '3': // Real es ^[[3~ pero entenem que despres vindra el ~
+							System.out.print("      Ha llegit SUPR");
+							linia.delete();
+							break;
+						case 'H':
+							System.out.print("      Ha llegit HOME");
+							//Cridar HOME a línia
+							break;
+						case '2': // Real es ^[[2~ pero entenem que despres vindra el ~
+							System.out.print("      Ha llegit INSERT");
+							//Cridar insert a view
+							break;
+						case 'F':
+							System.out.print("      Ha llegit FIN");
+							//Cridar FIN
+							break;
+						default: 
+							System.out.print("      Seq de ESC no valida");
+					}
+					//car = 'D';
+					car = -1;
 				}
 
 			}
-		//	else System.out.println("No hi ha seq ESC");	// Per comprova que no hi ha seq ESC
+		//	else System.out.println("No hi ha seq ESC");	// Per comprovar que no hi ha seq ESC
 		} catch (IOException e){
 			e.printStackTrace();
 		} finally{
@@ -110,7 +109,7 @@ public class EditableBufferedReader extends BufferedReader{
 		String frase = null;
 		try{
 			this.setRaw();
-			caracter = this.read();
+			caracter = this.read(); //val -1
 			while(caracter != CR){
 				if (caracter != -1){
 					linia.addChar((char)caracter);
@@ -118,7 +117,6 @@ public class EditableBufferedReader extends BufferedReader{
 					frase = frase+(char)caracter;
 				}
 				caracter = this.read();
-
 			}
 		} finally {
 			this.unsetRaw();
