@@ -62,21 +62,21 @@ public class EditableBufferedReader extends BufferedReader{
 			System.out.println(car);*/  //Per comprovar que printa cada cosa
 			
 			if ((car = super.read()) == ESC){
-				System.out.print("     hi ha ESC");
+				//System.out.print("     hi ha ESC");
 				if ((car = super.read()) == '['){
-					System.out.print("      Ha llegit [");
+					//System.out.print("      Ha llegit [");
 					switch (car = super.read()){
 						case 'D':
-							System.out.print("      Ha llegit FLETXA_ESQ");
+							//System.out.print("      Ha llegit FLETXA_ESQ");
 							linia.goLeft();
 							break;
 						case 'C':
-							System.out.print("      Ha llegit FLETXA_DRT");
+							//System.out.print("      Ha llegit FLETXA_DRT");
 							linia.goRight();
 							break;
 						case '3': // Real es ^[[3~ pero entenem que despres vindra el ~
 							System.out.print("      Ha llegit SUPR");
-							linia.delete();
+							//linia.delete();
 							break;
 						case 'H':
 							System.out.print("      Ha llegit HOME");
@@ -94,7 +94,7 @@ public class EditableBufferedReader extends BufferedReader{
 							System.out.print("      Seq de ESC no valida");
 					}
 					//car = 'D';
-					car = -1;
+					car = 12;
 				}
 
 			}
@@ -112,14 +112,16 @@ public class EditableBufferedReader extends BufferedReader{
 		String frase = null;
 		try{
 			this.setRaw();
-			caracter = this.read(); //val -1
+			caracter = this.read();
+			System.out.print(caracter);
 			while(caracter != CR){
-				if (caracter != -1){
+				if (caracter != 12){
 					linia.addChar((char)caracter);
 					System.out.print((char)caracter);
 					frase = frase+(char)caracter;
 				}
 				caracter = this.read();
+				System.out.print("  "+caracter);
 			}
 		} finally {
 			this.unsetRaw();

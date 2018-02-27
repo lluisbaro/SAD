@@ -18,28 +18,28 @@ public class Line{
 
 	public void addChar(char car){
 		this.line.add(this.pos,car);
-		this.pos ++;
+		this.pos++;
 	}
 
 	public void delete(){
-		this.pos --;
+		this.pos--;
 		this.line.remove(this.pos);
 	}
 
 	public void supr(){
 		this.line.remove(this.pos);
-		this.pos --;
+		this.pos--;
 	}
 
-	public void goLeft(){
+	public void goRight(){
 		if (this.pos > (line.size() - 1)){
 			this.pos++;
 		}
 	}
 
-	public void goRight(){
+	public void goLeft(){
 		if (pos > 0){
-			this.pos --;
+			this.pos--;
 		}
 	}
 
