@@ -22,79 +22,80 @@ public class EditableBufferedReader extends BufferedReader{
 	
 	public void setRaw(){
 		try{
-
 			String[] command = {"/bin/sh", "-c", "stty -echo raw </dev/tty"};
-		// Runtime.exec()	
+		// Execucio amb Runtime	
 			Runtime.getRuntime().exec(command);
-		//ProcessBuilder 
-		//	ProcessBuilder p = new ProcessBuilder();
-		//	p.command("sh", "-c", "stty -echo raw </dev/tty").start();
-		//	p.command(command).start();
-		//	System.out.println("Enter in raw mode");	// Comprovem que entra en RAW mode
+
+		// Execucio amb Process
+		/*	ProcessBuilder p = new ProcessBuilder();
+			p.command("sh", "-c", "stty -echo raw </dev/tty").start();
+			p.command(command).start(); */
+
+		// Comprovem que entra en RAW mode
+		//	System.out.println("Enter in raw mode");	
 		}catch(IOException e){
 			e.printStackTrace();
-			System.exit(-1);
 		}
 	}
 	
 	public void unsetRaw(){
 		try{
-
 			String[] command = {"/bin/sh", "-c", "stty sane </dev/tty"}; // stty sane | stty echo -raw ...
-		//	Runtime.exec()
-		//	Runtime.getRuntime().exec(command);
+		// Execucio amb Runtime	
+			Runtime.getRuntime().exec(command);
 
-		//	ProcessBuilder
-			ProcessBuilder p = new ProcessBuilder();
-			p.command(command).start();
-		//	System.out.println("Enter in cooked mode");	// Comprovem que surt del RAW mode
+		// Execucio amb Process
+		/*	ProcessBuilder p = new ProcessBuilder();
+			p.command(command).start(); */
+
+		// Comprovem que surt del RAW mode
+		//	System.out.println("Enter in cooked mode");	
 			
 		}catch(IOException e){
 			e.printStackTrace();
-			System.exit(-1);
 		}
 	}
 	
 	public int read() throws IOException{
 		int car = 0;
 		try{
+		//	Comprovar que es el que printa cada tecla
 			/*car=super.read();
-			System.out.println(car);*/  //Per comprovar que printa cada cosa
+			System.out.println(car);*/ 
 			
 			if ((car = super.read()) == ESC){
-				//System.out.print("     hi ha ESC");
+			//	System.out.print("     hi ha ESC");
 				if ((car = super.read()) == '['){
-					//System.out.print("      Ha llegit [");
+				//	System.out.print("      Ha llegit [");
 					switch (car = super.read()){
 						case 'D':
-							//System.out.print("      Ha llegit FLETXA_ESQ");
+						//	System.out.print("      Ha llegit FLETXA_ESQ");
 							linia.goLeft();
 							break;
 						case 'C':
-							//System.out.print("      Ha llegit FLETXA_DRT");
+						//	System.out.print("      Ha llegit FLETXA_DRT");
 							linia.goRight();
 							break;
 						case '3': // Real es ^[[3~ pero entenem que despres vindra el ~
-							System.out.print("      Ha llegit SUPR");
-							//linia.delete();
+						//	System.out.print("      Ha llegit SUPR");
+							linia.delete();
 							break;
 						case 'H':
-							System.out.print("      Ha llegit HOME");
+						//	System.out.print("      Ha llegit HOME");
 							//Cridar HOME a línia
 							break;
 						case '2': // Real es ^[[2~ pero entenem que despres vindra el ~
-							System.out.print("      Ha llegit INSERT");
+						//	System.out.print("      Ha llegit INSERT");
 							//Cridar insert a view
 							break;
 						case 'F':
-							System.out.print("      Ha llegit FIN");
+						//	System.out.print("      Ha llegit FIN");
 							//Cridar FIN
 							break;
 						default: 
 							System.out.print("      Seq de ESC no valida");
 					}
-					//car = 'D';
-					car = 12;
+					car = -1;
 				}
 
 			}
@@ -115,7 +116,7 @@ public class EditableBufferedReader extends BufferedReader{
 			caracter = this.read();
 			System.out.print(caracter);
 			while(caracter != CR){
-				if (caracter != 12){
+				if (caracter != -1){
 					linia.addChar((char)caracter);
 					System.out.print((char)caracter);
 					frase = frase+(char)caracter;
@@ -125,7 +126,8 @@ public class EditableBufferedReader extends BufferedReader{
 			}
 		} finally {
 			this.unsetRaw();
-			return frase;
+			return linia.toString(); // mirar metode to String de la classe ArrayList  --> si no es treballa amb frase no printa, veure xq
+		//	return frase;
 		}
 			
 	}

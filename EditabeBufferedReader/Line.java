@@ -43,5 +43,10 @@ public class Line{
 		}
 	}
 
+	public String toString(){
+		return this.line.toString();
+
+	}
+
 
 }
