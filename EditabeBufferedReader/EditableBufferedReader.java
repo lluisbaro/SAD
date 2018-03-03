@@ -77,15 +77,18 @@ public class EditableBufferedReader extends BufferedReader{
 							linia.goRight();
 							break;
 						case '3': // Real es ^[[3~ pero entenem que despres vindra el ~
-						//	System.out.print("      Ha llegit SUPR");
+							System.out.print("      Ha llegit SUPR");
+							car = super.read();
 							linia.delete();
 							break;
 						case 'H':
 						//	System.out.print("      Ha llegit HOME");
+						//	linia.home();
 							//Cridar HOME a línia
 							break;
 						case '2': // Real es ^[[2~ pero entenem que despres vindra el ~
 						//	System.out.print("      Ha llegit INSERT");
+							car = super.read();
 							//Cridar insert a view
 							break;
 						case 'F':
@@ -108,7 +111,7 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public String readLine() throws IOException{
-		// aqui fem el bucle i invoquema setRaw i unsetRar
+		// aqui fem el bucle i invoquema setRaw i unsetRaw
 		int caracter;
 		String frase = null;
 		try{

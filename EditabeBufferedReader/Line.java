@@ -43,11 +43,24 @@ public class Line{
 		}
 	}
 
+	public void home(){
+		this.pos = 0;
+	}
+
 	public String toString(){
+	//	El for comença a 0
+		
+		String str = null;
+		for (int i = 0 ; i < this.line.size() ; i++){
+			str = str + this.line.get(i).toString();
+		}
+		
+		/*
 		String str = this.line.get(0).toString();
 		for (int i=1;i<this.line.size(); i++){
 			str = str+this.line.get(i).toString();
 		}
+		*/
 		return str;
 	}
 
