@@ -62,7 +62,7 @@ public class EditableBufferedReader extends BufferedReader{
 		//	Comprovar que es el que printa cada tecla
 			/*car=super.read();
 			System.out.println(car);*/ 
-			
+
 			if ((car = super.read()) == ESC){
 			//	System.out.print("     hi ha ESC");
 				if ((car = super.read()) == '['){
@@ -77,9 +77,10 @@ public class EditableBufferedReader extends BufferedReader{
 							linia.goRight();
 							break;
 						case '3': // Real es ^[[3~ pero entenem que despres vindra el ~
-							System.out.print("      Ha llegit SUPR");
+							System.out.print("      Ha llegit SUPR      ");
 							car = super.read();
-							linia.delete();
+							linia.supr();
+						//	S'ha de tractar el que passa quan es borra tota la linia
 							break;
 						case 'H':
 						//	System.out.print("      Ha llegit HOME");
@@ -100,6 +101,10 @@ public class EditableBufferedReader extends BufferedReader{
 					}
 					car = -1;
 				}
+
+			} else if (car == 127){
+				linia.delete();
+				car = -1;
 
 			}
 		//	else System.out.println("No hi ha seq ESC");	// Per comprovar que no hi ha seq ESC
@@ -127,7 +132,11 @@ public class EditableBufferedReader extends BufferedReader{
 				caracter = this.read();
 				System.out.print("  "+caracter);
 			}
-		} finally {
+		} catch (IOException e){
+			System.out.println("Line is empty");
+			e.printStackTrace();
+		} 
+		finally {
 			this.unsetRaw();
 			return linia.toString(); // mirar metode to String de la classe ArrayList  --> si no es treballa amb frase no printa, veure xq
 		//	return frase;

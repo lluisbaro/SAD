@@ -11,6 +11,7 @@ class TestReadLine {
             str = in.readLine();
           //  car = in.read();
         } catch(IOException e) {
+            System.out.println("Line is empty");
             e.printStackTrace();
         }
         System.out.println("\nline is: " + str);

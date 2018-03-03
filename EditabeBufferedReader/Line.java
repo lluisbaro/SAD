@@ -22,13 +22,17 @@ public class Line{
 	}
 
 	public void delete(){
-		this.pos--;
-		this.line.remove(this.pos);
+		if (this.pos > 0){
+			this.line.remove(this.pos);
+			this.pos--;
+		}
 	}
 
 	public void supr(){
-		this.line.remove(this.pos);
-		this.pos--;
+		if (pos > 0){
+			this.line.remove(this.pos +1);
+			this.pos--;
+		}
 	}
 
 	public void goRight(){
@@ -47,21 +51,18 @@ public class Line{
 		this.pos = 0;
 	}
 
-	public String toString(){
-	//	El for comença a 0
-		
-		String str = null;
-		for (int i = 0 ; i < this.line.size() ; i++){
-			str = str + this.line.get(i).toString();
+	public String toString() throws IOException{
+		try {
+			String str = this.line.get(0).toString();
+			for (int i=1;i<this.line.size(); i++){
+				str = str+this.line.get(i).toString();
+			}
+		} catch (IOException e){
+			System.out.println("Line is empty");
+			e.printStackTrace();
+		} finally {
+			return str;
 		}
-		
-		/*
-		String str = this.line.get(0).toString();
-		for (int i=1;i<this.line.size(); i++){
-			str = str+this.line.get(i).toString();
-		}
-		*/
-		return str;
 	}
 
 
