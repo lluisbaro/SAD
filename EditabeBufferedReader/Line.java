@@ -51,18 +51,12 @@ public class Line{
 		this.pos = 0;
 	}
 
-	public String toString() throws IOException{
-		try {
-			String str = this.line.get(0).toString();
-			for (int i=1;i<this.line.size(); i++){
-				str = str+this.line.get(i).toString();
-			}
-		} catch (IOException e){
-			System.out.println("Line is empty");
-			e.printStackTrace();
-		} finally {
-			return str;
+	public String toString(){
+		String str = this.line.get(0).toString();
+		for (int i=1;i<this.line.size(); i++){
+			str = str+this.line.get(i).toString();
 		}
+		return str;
 	}
 
 
