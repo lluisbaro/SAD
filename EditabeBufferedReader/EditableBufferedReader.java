@@ -13,7 +13,7 @@ public class EditableBufferedReader extends BufferedReader{
 	public static final int FIN = -5;
 	public static final int INSERT = -6;
 	public static final int SUPR = -7;
-	private final Line linia;
+	public final Line linia;
 	
 	public EditableBufferedReader(InputStreamReader in){
 		super(in);
@@ -103,8 +103,10 @@ public class EditableBufferedReader extends BufferedReader{
 				}
 
 			} else if (car == 127){
-				linia.delete();
+				System.out.print("    delete   ");
 				car = -1;
+				linia.delete();
+				System.out.print("______"+car);
 
 			}
 		//	else System.out.println("No hi ha seq ESC");	// Per comprovar que no hi ha seq ESC
@@ -132,12 +134,9 @@ public class EditableBufferedReader extends BufferedReader{
 				caracter = this.read();
 				System.out.print("  "+caracter);
 			}
-		} catch (IOException e){
-			System.out.println("Line is empty");
-			e.printStackTrace();
-		} 
-		finally {
+		} finally {
 			this.unsetRaw();
+			System.out.print("****"+linia.getPos());
 			return linia.toString(); // mirar metode to String de la classe ArrayList  --> si no es treballa amb frase no printa, veure xq
 		//	return frase;
 		}

@@ -19,17 +19,31 @@ public class Line{
 	public void addChar(char car){
 		this.line.add(this.pos,car);
 		this.pos++;
+		System.out.print("-----"+pos+ "-----");
 	}
 
-	public void delete(){
-		if (this.pos > 0){
-			this.line.remove(this.pos);
-			this.pos--;
+	public void delete(){ // esta malament xq ha de tenir un return
+		System.out.print("--ESTA AQUI-------");
+		if (pos>0){
+					System.out.print("--ARRIBA AQUI??-------");
+
+		this.line.remove(this.pos);
+		System.out.print("--ARRIBA AQUI??-------");
 		}
+		//returns line.toString();
+		/*
+		System.out.print("-------"+pos+ "-------");
+		if (this.pos > 0){
+			System.out.print("--ESTA AQUI-------");
+			this.line.remove(this.pos);
+			System.out.print("--ESTA AQUI-------");
+			this.pos--;
+			System.out.print("-------"+pos+ "-------");
+		}*/
 	}
 
 	public void supr(){
-		if (pos > 0){
+		if (pos >= 0){
 			this.line.remove(this.pos +1);
 			this.pos--;
 		}
