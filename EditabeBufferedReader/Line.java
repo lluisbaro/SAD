@@ -22,16 +22,15 @@ public class Line{
 	}
 
 	public void delete(){
-		this.pos--;
 		if (this.pos > 0){
+			this.pos--;
 			this.line.remove(this.pos);
 		}
 	}
 
 	public void supr(){
-		if (pos >= 0){
-			this.line.remove(this.pos +1);
-			this.pos--;
+		if (this.pos >= 0 && this.pos < this.line.size()){
+			this.line.remove(this.pos);
 		}
 	}
 

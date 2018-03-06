@@ -13,6 +13,7 @@ public class EditableBufferedReader extends BufferedReader{
 	public static final int FIN = -5;
 	public static final int INSERT = -6;
 	public static final int SUPR = -7;
+	public static final int BACKSPACE = 127;
 	public final Line linia;
 	
 	public EditableBufferedReader(InputStreamReader in){
@@ -99,7 +100,7 @@ public class EditableBufferedReader extends BufferedReader{
 					car = -1;
 				}
 
-			} else if (car == 127){
+			} else if (car == BACKSPACE){
 				//System.out.print("    delete   ");
 				car = -1;
 				linia.delete();
