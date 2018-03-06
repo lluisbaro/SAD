@@ -89,7 +89,7 @@ public class EditableBufferedReader extends BufferedReader{
 						//	System.out.print("      Ha llegit INSERT");
 							car = super.read();
 							linia.insert();
-							System.out.print("     INSERT     ");
+						//	System.out.print("     INSERT     ");
 							break;
 						case 'F': //	FIN
 						//	System.out.print("      Ha llegit FIN");
