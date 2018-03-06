@@ -35,7 +35,7 @@ public class Line{
 	}
 
 	public void goRight(){
-		if (this.pos > (line.size() - 1)){
+		if (this.pos < line.size()){
 			this.pos++;
 		}
 	}
@@ -49,6 +49,14 @@ public class Line{
 	public void home(){
 		this.pos = 0;
 	}
+
+	public void fin(){
+		this.pos = this.line.size();
+	}
+
+	/*public void insert(){
+		this.pos = 0;
+	}*/
 
 	public String toString(){
 		String str = this.line.get(0).toString();

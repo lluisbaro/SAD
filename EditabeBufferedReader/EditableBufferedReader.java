@@ -66,33 +66,33 @@ public class EditableBufferedReader extends BufferedReader{
 				if ((car = super.read()) == '['){
 				//	System.out.print("      Ha llegit [");
 					switch (car = super.read()){
-						case 'D':
+						case 'D': // 	ESQUERRA
 						//	System.out.print("      Ha llegit FLETXA_ESQ");
 							linia.goLeft();
 							break;
-						case 'C':
+						case 'C': //	DRETA
 						//	System.out.print("      Ha llegit FLETXA_DRT");
 							linia.goRight();
 							break;
-						case '3': // Real es ^[[3~ pero entenem que despres vindra el ~
-							System.out.print("      Ha llegit SUPR      ");
+						case '3': //	SUPRIMIR	Real es ^[[3~ pero entenem que despres vindra el ~
+						//	System.out.print("      Ha llegit SUPR      ");
 							car = super.read();
 							linia.supr();
 						//	S'ha de tractar el que passa quan es borra tota la linia
 							break;
-						case 'H':
+						case 'H': //	HOME
 						//	System.out.print("      Ha llegit HOME");
-						//	linia.home();
+							linia.home();
 							//Cridar HOME a línia
 							break;
-						case '2': // Real es ^[[2~ pero entenem que despres vindra el ~
+						case '2': // 	insert 		Real es ^[[2~ pero entenem que despres vindra el ~
 						//	System.out.print("      Ha llegit INSERT");
 							car = super.read();
 							//Cridar insert a view
 							break;
-						case 'F':
+						case 'F': //	FIN
 						//	System.out.print("      Ha llegit FIN");
-							//Cridar FIN
+							linia.fin();
 							break;
 						default: 
 							System.out.print("      Seq de ESC no valida");
