@@ -5,7 +5,7 @@ import java.lang.*;
 public class EditableBufferedReader extends BufferedReader{
 	//declarem variables CTE
 	public static final int ESC = 27;
-	public static final int CSI = 0x9B;
+	public static final int CSI = 0x9B; // ESC [
 	public static final int CR = 13;
 	public static final int FLETXA_ESQ = -2;
 	public static final int FLETXA_DRT = -3;

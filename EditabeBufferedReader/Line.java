@@ -43,21 +43,25 @@ public class Line{
 	public void goRight(){
 		if (this.pos < line.size()){
 			this.pos++;
+			System.out.print(String.format("%c[C", 27));
 		}
 	}
 
 	public void goLeft(){
 		if (pos > 0){
 			this.pos--;
+			System.out.print(String.format("%c[D", 27));
 		}
 	}
 
 	public void home(){
 		this.pos = 0;
+		System.out.print(String.format("%c[H", 27));
 	}
 
 	public void fin(){
 		this.pos = this.line.size();
+		System.out.print(String.format("%c[F", 27));
 	}
 
 	public void insert(){
