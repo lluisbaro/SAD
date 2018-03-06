@@ -59,11 +59,8 @@ public class EditableBufferedReader extends BufferedReader{
 	public int read() throws IOException{
 		int car = 0;
 		try{
-		//	Comprovar que es el que printa cada tecla
-			/*car=super.read();
-			System.out.println(car);*/ 
-
-			if ((car = super.read()) == ESC){
+			car = super.read();
+			if (car == ESC){
 			//	System.out.print("     hi ha ESC");
 				if ((car = super.read()) == '['){
 				//	System.out.print("      Ha llegit [");
@@ -103,10 +100,10 @@ public class EditableBufferedReader extends BufferedReader{
 				}
 
 			} else if (car == 127){
-				System.out.print("    delete   ");
+				//System.out.print("    delete   ");
 				car = -1;
 				linia.delete();
-				System.out.print("______"+car);
+				//System.out.print("______"+car);
 
 			}
 		//	else System.out.println("No hi ha seq ESC");	// Per comprovar que no hi ha seq ESC
@@ -120,23 +117,21 @@ public class EditableBufferedReader extends BufferedReader{
 	public String readLine() throws IOException{
 		// aqui fem el bucle i invoquema setRaw i unsetRaw
 		int caracter;
-		String frase = null;
 		try{
 			this.setRaw();
 			caracter = this.read();
-			System.out.print(caracter);
+			//System.out.print(caracter);
 			while(caracter != CR){
 				if (caracter != -1){
 					linia.addChar((char)caracter);
 					System.out.print((char)caracter);
-					frase = frase+(char)caracter;
 				}
 				caracter = this.read();
-				System.out.print("  "+caracter);
+				//System.out.print("  "+caracter);
 			}
 		} finally {
 			this.unsetRaw();
-			System.out.print("****"+linia.getPos());
+			System.out.println("****"+linia.getPos());
 			return linia.toString(); // mirar metode to String de la classe ArrayList  --> si no es treballa amb frase no printa, veure xq
 		//	return frase;
 		}
