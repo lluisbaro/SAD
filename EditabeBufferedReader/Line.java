@@ -6,10 +6,12 @@ public class Line{
 
 	private int pos;
 	private ArrayList<Character> line;
+	private boolean insert;
 
 	public Line(){
 		pos = 0;
 		line = new ArrayList<Character>();
+		insert = false;
 	}
 
 	public int getPos(){
@@ -17,7 +19,11 @@ public class Line{
 	}
 
 	public void addChar(char car){
-		this.line.add(this.pos,car);
+		if (this.insert){
+			this.line.set(this.pos,car);
+		} else { 
+			this.line.add(this.pos,car);
+		}
 		this.pos++;
 	}
 
@@ -54,9 +60,9 @@ public class Line{
 		this.pos = this.line.size();
 	}
 
-	/*public void insert(){
-		this.pos = 0;
-	}*/
+	public void insert(){
+		this.insert = !this.insert;
+	}
 
 	public String toString(){
 		String str = this.line.get(0).toString();
@@ -65,6 +71,5 @@ public class Line{
 		}
 		return str;
 	}
-
 
 }

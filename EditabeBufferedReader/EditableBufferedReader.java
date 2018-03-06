@@ -88,7 +88,8 @@ public class EditableBufferedReader extends BufferedReader{
 						case '2': // 	insert 		Real es ^[[2~ pero entenem que despres vindra el ~
 						//	System.out.print("      Ha llegit INSERT");
 							car = super.read();
-							//Cridar insert a view
+							linia.insert();
+							System.out.print("     INSERT     ");
 							break;
 						case 'F': //	FIN
 						//	System.out.print("      Ha llegit FIN");
