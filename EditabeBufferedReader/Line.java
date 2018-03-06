@@ -31,6 +31,7 @@ public class Line{
 		if (this.pos > 0){
 			this.pos--;
 			this.line.remove(this.pos);
+			System.out.print(String.format("%c[?1K", 27));
 		}
 	}
 
