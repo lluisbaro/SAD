@@ -133,7 +133,7 @@ public class EditableBufferedReader extends BufferedReader{
 			}
 		} finally {
 			this.unsetRaw();
-			System.out.println("****"+linia.getPos());
+			System.out.println("****"+linia.getSize());
 			return linia.toString(); // mirar metode to String de la classe ArrayList  --> si no es treballa amb frase no printa, veure xq
 		//	return frase;
 		}

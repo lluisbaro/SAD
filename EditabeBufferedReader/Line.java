@@ -18,9 +18,18 @@ public class Line{
 		return this.pos;
 	}
 
+	public int getSize(){
+		return this.line.size();
+	}
+
 	public void addChar(char car){
-		if (this.insert && this.pos<this.line.size()){
-			this.line.set(this.pos,car);
+		if (this.pos<this.line.size()){
+			if (this.insert){
+				this.line.set(this.pos,car);
+			} else{
+				System.out.print(String.format("%c[1@", 27));
+				this.line.add(this.pos,car);
+			}
 		} else { 
 			this.line.add(this.pos,car);
 		}
@@ -31,18 +40,15 @@ public class Line{
 		if (this.pos > 0){
 			this.pos--;
 			this.line.remove(this.pos);
-			// Borren si esta al final
-			if (this.pos == this.line.size()){
-				System.out.print(String.format("%c[D", 27));
-			}
-			System.out.print(String.format("%c[J", 27));
+			System.out.print(String.format("%c[D", 27));
+			System.out.print(String.format("%c[P", 27));
 		}
 	}
 
 	public void supr(){
 		if (this.pos >= 0 && this.pos < this.line.size()){
 			this.line.remove(this.pos);
-			// Falta  mostrar per pantalla
+			System.out.print(String.format("%c[P", 27));
 		}
 	}
 
@@ -67,7 +73,7 @@ public class Line{
 
 	public void fin(){
 		this.pos = this.line.size();
-		System.out.print(String.format("%c["+this.pos+"G", 27));
+		System.out.print(String.format("%c["+(this.line.size()+1)+"G", 27));
 	}
 
 	public void insert(){
