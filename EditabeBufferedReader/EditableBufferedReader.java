@@ -31,9 +31,6 @@ public class EditableBufferedReader extends BufferedReader{
 		/*	ProcessBuilder p = new ProcessBuilder();
 			p.command("sh", "-c", "stty -echo raw </dev/tty").start();
 			p.command(command).start(); */
-
-		// Comprovem que entra en RAW mode
-		//	System.out.println("Enter in raw mode");	
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -48,10 +45,6 @@ public class EditableBufferedReader extends BufferedReader{
 		// Execucio amb Process
 		/*	ProcessBuilder p = new ProcessBuilder();
 			p.command(command).start(); */
-
-		// Comprovem que surt del RAW mode
-		//	System.out.println("Enter in cooked mode");	
-			
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -61,38 +54,27 @@ public class EditableBufferedReader extends BufferedReader{
 		int car = 0;
 		try{
 			car = super.read();
-			if (car == ESC){
-			//	System.out.print("     hi ha ESC");
-				if ((car = super.read()) == '['){
-				//	System.out.print("      Ha llegit [");
+			if (car == ESC){	//	System.out.print("     hi ha ESC");
+				if ((car = super.read()) == '['){	//	System.out.print("      Ha llegit [");
 					switch (car = super.read()){
-						case 'D': // 	ESQUERRA
-						//	System.out.print("      Ha llegit FLETXA_ESQ");
+						case 'D': // 	ESQUERRA	//	System.out.print("      Ha llegit FLETXA_ESQ");
 							linia.goLeft();
 							break;
-						case 'C': //	DRETA
-						//	System.out.print("      Ha llegit FLETXA_DRT");
+						case 'C': //	DRETA		//	System.out.print("      Ha llegit FLETXA_DRT");
 							linia.goRight();
 							break;
-						case '3': //	SUPRIMIR	Real es ^[[3~ pero entenem que despres vindra el ~
-						//	System.out.print("      Ha llegit SUPR      ");
+						case '3': //	SUPRIMIR	Real es ^[[3~ pero entenem que despres vindra el ~		//	System.out.print("      Ha llegit SUPR      ");
 							car = super.read();
 							linia.supr();
-						//	S'ha de tractar el que passa quan es borra tota la linia
 							break;
-						case 'H': //	HOME
-						//	System.out.print("      Ha llegit HOME");
+						case 'H': //	HOME		//	System.out.print("      Ha llegit HOME");
 							linia.home();
-							//Cridar HOME a línia
 							break;
-						case '2': // 	insert 		Real es ^[[2~ pero entenem que despres vindra el ~
-						//	System.out.print("      Ha llegit INSERT");
+						case '2': // 	insert 		Real es ^[[2~ pero entenem que despres vindra el ~		//	System.out.print("      Ha llegit INSERT");
 							car = super.read();
 							linia.insert();
-						//	System.out.print("     INSERT     ");
 							break;
-						case 'F': //	FIN
-						//	System.out.print("      Ha llegit FIN");
+						case 'F': //	FIN			//	System.out.print("      Ha llegit FIN");
 							linia.fin();
 							break;
 						default: 
@@ -101,12 +83,9 @@ public class EditableBufferedReader extends BufferedReader{
 					car = -1;
 				}
 
-			} else if (car == BACKSPACE){
-				//System.out.print("    delete   ");
+			} else if (car == BACKSPACE){			//System.out.print("    delete   ");
 				car = -1;
 				linia.delete();
-				//System.out.print("______"+car);
-
 			}
 		//	else System.out.println("No hi ha seq ESC");	// Per comprovar que no hi ha seq ESC
 		} catch (IOException e){
@@ -133,11 +112,8 @@ public class EditableBufferedReader extends BufferedReader{
 			}
 		} finally {
 			this.unsetRaw();
-			System.out.println("****"+linia.getSize());
-			return linia.toString(); // mirar metode to String de la classe ArrayList  --> si no es treballa amb frase no printa, veure xq
-		//	return frase;
+			System.out.println("*****"+linia.getSize());
+			return linia.toString(); 
 		}
-			
 	}
-	
 }
