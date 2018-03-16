@@ -1,4 +1,6 @@
 /*
+
+crear classe CTE
  ESC parser:
  RIGHT:	ESC [ C
  LEFT:	ESC [ D
@@ -6,11 +8,66 @@
  END:	ESC O F, ESC [ 4 ~ (keypad)
  INS:	ESC [ 2 ~
  DEL:	ESC [ 3 ~
+ 
+ Sempre referir-nos als simbols per nom, per tant crear CTE de les SEQ_ESC
+ 
+ ESC: 27 / '\033'
  */
  
  public int read() throws IOException{
- 	int ch;
+ 	int ch, ch1;
  	
+ 	//primer mirar si es SEQ_ESC, per tant evitem els if anidats, i el codi es mes efectiu
+ 	if((ch = super.read()) != '\033')
+ 		return ch;
+ 	switch (ch = super.read()){
+ 		case 'O':
+ 			switch (ch = super.read()) {
+ 				case 'H': return Key.HOME;
+ 				case 'F': return Key.END;
+ 				default: return ch;
+ 			}
+ 		case '[':
+ 			switch (ch = super.read()) {
+ 				case 'C': return Key.LEFT;
+ 				case 'D': return Key.RIGHT;
+ 				// com passar de char a int --> Key.HOME + ch - '1'	--> sumar i restar
+ 				case '1':
+ 				case '2':
+ 				case '3':
+ 				case '4':
+ 					if ((ch1 = super.read() != '~')
+ 						return ch1;
+ 					return Key.HOME + ch - '1'
+ 				default: return ch;
+ 			}
+ 		default: return ch;
+ 	}
  	
  	
  }
+ 
+ public int read() throws IOException {
+ 	int ch;
+ 	if (match("\033OH"))
+ 		return Key.HOME;
+ 	if (match("\033OF"))
+ 		return Key.END;
+ 	if (match("\033[C"))
+ 		return Key.RIGHT;
+ 	if (match("\033[D"))
+ 		return Key.LEFT;
+ 	if (match("\033[1~"))
+ 		return Key.HOME;
+ 	if (match("\033[2~"))
+ 		return Key.INS;
+ 	if (match("\033[3~"))
+ 		return Key.DEL;
+ 	if (match("\033[4~"))
+ 		return Key.END;
+ 	ch = get();
+ 	return ch;
+ }
+ // programar metode match que retorni true si coincideix, sino retorna false i tira enrere el cursor.
+ 	//1. Guardant en un prefix la lectira caracter a caracter. Buidar-lo quan el match tingui exit
+ 	//2. Fent servir els metodes adients de REader
