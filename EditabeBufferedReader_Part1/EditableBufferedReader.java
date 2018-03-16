@@ -3,15 +3,23 @@ import java.lang.*;
 
 
 public class EditableBufferedReader extends BufferedReader{
-	//Declaracio de constants universals
-	public static final int ESC = 27;
-	public static final int CR = 13;
-	public static final int FLETXA_ESQ = 'D';
-	public static final int FLETXA_DRT = 'C';
-	public static final int HOME = 'H';
-	public static final int FIN = 'O';
+	/*
+		ESC parser:
+		RIGHT:	ESC [ C
+		LEFT:	ESC [ D
+		HOME:	ESC O H, ESC [ 1 ~ (keypad)
+		END:	ESC O F, ESC [ 4 ~ (keypad)
+		INS:	ESC [ 2 ~
+		DEL:	ESC [ 3 ~
+	*/
 	public static final int INSERT = 2;
 	public static final int SUPRIMIR = 3;
+	public static final int CR = 13;
+	public static final int ESC = 27;
+	public static final int FLETXA_DRT = 67; //C
+	public static final int FLETXA_ESQ = 68; //D
+	public static final int HOME = 72; //H
+	public static final int FIN = 79; //O
 	public static final int BACKSPACE = 127;
 	public final Line linia;
 	
