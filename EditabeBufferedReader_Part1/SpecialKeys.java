@@ -6,4 +6,5 @@ class SpecialKeys{
 	public static final int INSERT = 304;
 	public static final int FIN = 305;
 	public static final int BACKSPACE = 306;
+	public static final int ALTRES = 307;
 }

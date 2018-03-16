@@ -77,6 +77,8 @@ public class EditableBufferedReader extends BufferedReader{
 							car = SpecialKeys.FIN;
 							break;
 						default:
+							car = SpecialKeys.ALTRES;
+							break;
 					}
 				}
 			} else if (car == BACKSPACE){
@@ -95,12 +97,7 @@ public class EditableBufferedReader extends BufferedReader{
 		try{
 			this.setRaw();
 			caracter = this.read();
-			//System.out.print(caracter);
 			while(caracter != CR){
-				/*if (caracter != -1){
-					linia.addChar((char)caracter);
-					System.out.print((char)caracter);
-				}*/
 				switch(caracter){
 					case SpecialKeys.FLETXA_ESQ:
 						linia.goLeft();
@@ -122,6 +119,8 @@ public class EditableBufferedReader extends BufferedReader{
 						break;
 					case SpecialKeys.BACKSPACE:
 						linia.delete();
+						break;
+					case SpecialKeys.ALTRES:
 						break;
 					default:
 						linia.addChar((char)caracter);
