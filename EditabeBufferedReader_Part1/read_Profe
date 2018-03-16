@@ -68,6 +68,25 @@ crear classe CTE
  	ch = get();
  	return ch;
  }
- // programar metode match que retorni true si coincideix, sino retorna false i tira enrere el cursor.
- 	//1. Guardant en un prefix la lectira caracter a caracter. Buidar-lo quan el match tingui exit
- 	//2. Fent servir els metodes adients de REader
+ 
+ public int read() throws IOException {
+ 	int ch;
+	if (match("\033OH"))
+ 		return Key.HOME;
+ 	if (match("\033OF"))
+ 		return Key.END;
+ 	if (match("\033\\[[CD]"))	//els corxets [] son metacaracters que serveixen per fer un conjunt de strings
+ 		return Key.RIGHT + ch - 'C';
+ 	if (match("\033\\[[1234]~"))
+ 		return Key.HOME + ch - '1';
+ 	ch = get();
+ 	return ch;
+ }
+ /* programar metode match que retorni true si coincideix, sino retorna false i tira enrere el cursor.
+ 	1. Guardant en un prefix la lectira caracter a caracter. Buidar-lo quan el match tingui exit
+ 	2. Fent servir els metodes adients de REader
+ 	segurament podem factoritzar els strings comuns, per no haver de llegir continuament el string
+ 	podem fer conjunt de strings? --> si
+ 	
+ 	
+ */
