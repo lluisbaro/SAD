@@ -3,16 +3,15 @@ import java.lang.*;
 
 
 public class EditableBufferedReader extends BufferedReader{
-	//declarem variables CTE
+	//Declaracio de constants universals
 	public static final int ESC = 27;
-	public static final int CSI = 0x9B; // ESC [
 	public static final int CR = 13;
-	public static final int FLETXA_ESQ = -2;
-	public static final int FLETXA_DRT = -3;
-	public static final int HOME = -4;
-	public static final int FIN = -5;
-	public static final int INSERT = -6;
-	public static final int SUPR = -7;
+	public static final int FLETXA_ESQ = 'D';
+	public static final int FLETXA_DRT = 'C';
+	public static final int HOME = 'H';
+	public static final int FIN = 'O';
+	public static final int INSERT = 2;
+	public static final int SUPRIMIR = 3;
 	public static final int BACKSPACE = 127;
 	public final Line linia;
 	
@@ -54,40 +53,35 @@ public class EditableBufferedReader extends BufferedReader{
 		int car = 0;
 		try{
 			car = super.read();
-			if (car == ESC){	//	System.out.print("     hi ha ESC");
-				if ((car = super.read()) == '['){	//	System.out.print("      Ha llegit [");
+			if (car == ESC){
+				if ((car = super.read()) == '['){
 					switch (car = super.read()){
-						case 'D': // 	ESQUERRA	//	System.out.print("      Ha llegit FLETXA_ESQ");
-							linia.goLeft();
+						case FLETXA_ESQ:
+							car = SpecialKeys.FLETXA_ESQ;
 							break;
-						case 'C': //	DRETA		//	System.out.print("      Ha llegit FLETXA_DRT");
-							linia.goRight();
+						case FLETXA_DRT: 
+							car = SpecialKeys.FLETXA_DRT;
 							break;
-						case '3': //	SUPRIMIR	Real es ^[[3~ pero entenem que despres vindra el ~		//	System.out.print("      Ha llegit SUPR      ");
+						case SUPRIMIR: 
 							car = super.read();
-							linia.supr();
+							car = SpecialKeys.SUPRIMIR;
 							break;
-						case 'H': //	HOME		//	System.out.print("      Ha llegit HOME");
-							linia.home();
+						case HOME:
+							car = SpecialKeys.HOME;
 							break;
-						case '2': // 	insert 		Real es ^[[2~ pero entenem que despres vindra el ~		//	System.out.print("      Ha llegit INSERT");
+						case INSERT:
 							car = super.read();
-							linia.insert();
+							car = SpecialKeys.INSERT;
 							break;
-						case 'F': //	FIN			//	System.out.print("      Ha llegit FIN");
-							linia.fin();
+						case FIN: 
+							car = SpecialKeys.FIN;
 							break;
-						default: 
-							System.out.print("      Seq de ESC no valida");
+						default:
 					}
-					car = -1;
 				}
-
-			} else if (car == BACKSPACE){			//System.out.print("    delete   ");
-				car = -1;
-				linia.delete();
+			} else if (car == BACKSPACE){
+				car = SpecialKeys.BACKSPACE;
 			}
-		//	else System.out.println("No hi ha seq ESC");	// Per comprovar que no hi ha seq ESC
 		} catch (IOException e){
 			e.printStackTrace();
 		} finally{
@@ -103,16 +97,40 @@ public class EditableBufferedReader extends BufferedReader{
 			caracter = this.read();
 			//System.out.print(caracter);
 			while(caracter != CR){
-				if (caracter != -1){
+				/*if (caracter != -1){
 					linia.addChar((char)caracter);
 					System.out.print((char)caracter);
+				}*/
+				switch(caracter){
+					case SpecialKeys.FLETXA_ESQ:
+						linia.goLeft();
+						break;
+					case SpecialKeys.FLETXA_DRT:
+						linia.goRight();
+						break;
+					case SpecialKeys.SUPRIMIR:
+						linia.supr();
+						break;
+					case SpecialKeys.HOME:
+						linia.home();
+						break;
+					case SpecialKeys.INSERT:
+						linia.insert();
+						break;
+					case SpecialKeys.FIN:
+						linia.fin();
+						break;
+					case SpecialKeys.BACKSPACE:
+						linia.delete();
+						break;
+					default:
+						linia.addChar((char)caracter);
+						System.out.print((char)caracter);
 				}
 				caracter = this.read();
-				//System.out.print("  "+caracter);
 			}
 		} finally {
 			this.unsetRaw();
-			System.out.println("*****"+linia.getSize());
 			return linia.toString(); 
 		}
 	}
