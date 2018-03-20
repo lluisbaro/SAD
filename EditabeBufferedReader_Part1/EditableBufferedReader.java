@@ -60,8 +60,7 @@ public class EditableBufferedReader extends BufferedReader{
 	public int read() throws IOException{
 		int car = 0;
 		try{
-			car = super.read();
-			if (car == ESC){
+			if ((car = super.read()) == ESC){
 				if ((car = super.read()) == '['){
 					switch (car = super.read()){
 						case FLETXA_ESQ:
@@ -105,7 +104,7 @@ public class EditableBufferedReader extends BufferedReader{
 		try{
 			this.setRaw();
 			caracter = this.read();
-			while(caracter != CR){
+			while(caracter != CR && caracter != -1){ //preguntarli com llegir ctrl+D
 				switch(caracter){
 					case SpecialKeys.FLETXA_ESQ:
 						linia.goLeft();
@@ -138,6 +137,7 @@ public class EditableBufferedReader extends BufferedReader{
 			}
 		} finally {
 			this.unsetRaw();
+			linia.home();	//	Per tornar al inici del terminal
 			return linia.toString(); 
 		}
 	}
