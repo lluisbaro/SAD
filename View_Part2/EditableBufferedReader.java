@@ -3,7 +3,26 @@ import java.lang.*;
 
 
 public class EditableBufferedReader extends BufferedReader{
-	
+	/*
+		ESC parser:
+		RIGHT:	ESC [ C
+		LEFT:	ESC [ D
+		HOME:	ESC O H, ESC [ 1 ~ (keypad)
+		END:	ESC O F, ESC [ 4 ~ (keypad)
+		INS:	ESC [ 2 ~
+		DEL:	ESC [ 3 ~
+	*/
+	public static final int INSERT = 2;
+	public static final int SUPRIMIR = 3;
+	public static final int CR = 13;
+	public static final int ESC = 27;
+	public static final int FLETXA_DRT = 67; //C
+	public static final int FLETXA_ESQ = 68; //D
+	public static final int HOME = 72; //H
+	public static final int FIN = 79; //O
+	public static final int FIN2 = 79; //O
+	public static final int BACKSPACE = 127;
+
 	public final Line linia;
 	public final Console console;
 	
@@ -46,42 +65,37 @@ public class EditableBufferedReader extends BufferedReader{
 		linia.addObserver(console);
 		int car = -1;
 		try{
-			car = super.read();
-			if (car == Seq_ESC.ESC){ 	//	System.out.print("     hi ha ESC");
-				if ((car = super.read()) == '['){	//	System.out.print("      Ha llegit [");
+			if ((car = super.read()) == ESC){
+				if ((car = super.read()) == '['){
 					switch (car = super.read()){
-						case 'D': // 	ESQUERRA	//	System.out.print("      Ha llegit FLETXA_ESQ");
-							linia.goLeft();
+						case FLETXA_ESQ:
+							car = SpecialKeys.FLETXA_ESQ;
 							break;
-						case 'C': //	DRETA		//	System.out.print("      Ha llegit FLETXA_DRT");
-							linia.goRight();
+						case FLETXA_DRT: 
+							car = SpecialKeys.FLETXA_DRT;
 							break;
-						case '3': //	SUPRIMIR	Real es ^[[3~ pero entenem que despres vindra el ~	//	System.out.print("      Ha llegit SUPR      ");
+						case SUPRIMIR: 
 							car = super.read();
-							linia.supr();
+							car = SpecialKeys.SUPRIMIR;
 							break;
-						case 'H': //	HOME 		//	System.out.print("      Ha llegit HOME");
-							linia.home();
+						case HOME:
+							car = SpecialKeys.HOME;
 							break;
-						case '2': // 	insert 		Real es ^[[2~ pero entenem que despres vindra el ~	//	System.out.print("      Ha llegit INSERT");
+						case INSERT:
 							car = super.read();
-							linia.insert();
+							car = SpecialKeys.INSERT;
 							break;
-						case 'F': //	FIN 		//	System.out.print("      Ha llegit FIN");
-							linia.fin();
+						case FIN: 
+							car = SpecialKeys.FIN;
 							break;
-						default: 
-							System.out.print("Seq de ESC no valida");
+						default:
+							car = SpecialKeys.ALTRES;
 							break;
 					}
-					car = Seq_ESC.OK;
 				}
-
-			} else if (car == Seq_ESC.BACKSPACE){			//System.out.print("    delete   ");
-				car = Seq_ESC.OK;
-				linia.delete();
+			} else if (car == BACKSPACE){
+				car = SpecialKeys.BACKSPACE;
 			}
-		//	else System.out.println("No hi ha seq ESC");	// Per comprovar que no hi ha seq ESC
 		} catch (IOException e){
 			e.printStackTrace();
 		} finally{
@@ -90,27 +104,47 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public String readLine() throws IOException{
+		// aqui fem el bucle i invoquema setRaw i unsetRaw
 		int caracter;
 		try{
 			this.setRaw();
 			caracter = this.read();
-		//	System.out.print(caracter);
-			while(caracter != Seq_ESC.CR){
-				if (caracter != Seq_ESC.OK){
-					linia.addChar((char)caracter);
-					System.out.print((char)caracter);
+			while(caracter != CR && caracter != -1){ //preguntarli com llegir ctrl+D
+				switch(caracter){
+					case SpecialKeys.FLETXA_ESQ:
+						linia.goLeft();
+						break;
+					case SpecialKeys.FLETXA_DRT:
+						linia.goRight();
+						break;
+					case SpecialKeys.SUPRIMIR:
+						linia.supr();
+						break;
+					case SpecialKeys.HOME:
+						linia.home();
+						break;
+					case SpecialKeys.INSERT:
+						linia.insert();
+						break;
+					case SpecialKeys.FIN:
+						linia.fin();
+						break;
+					case SpecialKeys.BACKSPACE:
+						linia.delete();
+						break;
+					case SpecialKeys.ALTRES:
+						break;
+					default:
+						linia.addChar((char)caracter);
+						System.out.print((char)caracter);
 				}
 				caracter = this.read();
-		//		System.out.print("  "+caracter);
 			}
 		} finally {
 			this.unsetRaw();
 			linia.home();	//	Per tornar al inici del terminal
-			System.out.print("\n*****"+linia.getSize());
-			linia.home();	//	Per tornar al inici del terminal
 			return linia.toString(); 
 		}
-			
 	}
 	
 }

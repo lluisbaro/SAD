@@ -23,11 +23,13 @@ public class Line extends Observable{
 	}
 
 	public void addChar(char car){
+		setChanged();
 		if (this.pos<this.line.size()){
 			if (this.insert){
 				this.line.set(this.pos,car);
 			} else{
-				System.out.print(String.format("%c[1@", 27));
+				notifyObservers(SpecialKeys.INSERT);
+				//System.out.print(String.format("%c[1@", 27));
 				this.line.add(this.pos,car);
 			}
 		} else { 
@@ -41,7 +43,7 @@ public class Line extends Observable{
 		if (this.pos > 0){
 			this.pos--;
 			this.line.remove(this.pos);
-			notifyObservers(Seq_ESC.BACKSPACE);
+			notifyObservers(SpecialKeys.BACKSPACE);
 			//System.out.print(String.format("%c[D", 27));
 			//System.out.print(String.format("%c[P", 27));
 		}
@@ -51,7 +53,7 @@ public class Line extends Observable{
 		setChanged();
 		if (this.pos >= 0 && this.pos < this.line.size()){
 			this.line.remove(this.pos);
-			notifyObservers(Seq_ESC.SUPR);
+			notifyObservers(SpecialKeys.SUPRIMIR);
 			//System.out.print(String.format("%c[P", 27));
 		}
 	}
@@ -60,7 +62,7 @@ public class Line extends Observable{
 		setChanged();
 		if (this.pos < line.size()){
 			this.pos++;
-			notifyObservers(Seq_ESC.FLETXA_DRT);
+			notifyObservers(SpecialKeys.FLETXA_DRT);
 		//	System.out.print(String.format("%c[C", 27));
 		}
 	}
@@ -69,7 +71,7 @@ public class Line extends Observable{
 		setChanged();
 		if (pos > 0){
 			this.pos--;
-			notifyObservers(Seq_ESC.FLETXA_ESQ);
+			notifyObservers(SpecialKeys.FLETXA_ESQ);
 		//	System.out.print(String.format("%c[D", 27));
 		}
 	}
@@ -77,14 +79,14 @@ public class Line extends Observable{
 	public void home(){
 		setChanged();
 		this.pos = 0;
-		notifyObservers(Seq_ESC.HOME);
+		notifyObservers(SpecialKeys.HOME);
 	//	System.out.print(String.format("%c[G", 27));
 	}
 
 	public void fin(){
 		setChanged();
 		this.pos = this.line.size();
-		notifyObservers(Seq_ESC.FIN);
+		notifyObservers(SpecialKeys.FIN);
 	//	System.out.print(String.format("%c["+(this.line.size()+1)+"G", 27));
 	}
 
