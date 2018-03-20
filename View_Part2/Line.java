@@ -29,7 +29,6 @@ public class Line extends Observable{
 				this.line.set(this.pos,car);
 			} else{
 				notifyObservers(SpecialKeys.INSERT);
-				//System.out.print(String.format("%c[1@", 27));
 				this.line.add(this.pos,car);
 			}
 		} else { 
@@ -44,8 +43,6 @@ public class Line extends Observable{
 			this.pos--;
 			this.line.remove(this.pos);
 			notifyObservers(SpecialKeys.BACKSPACE);
-			//System.out.print(String.format("%c[D", 27));
-			//System.out.print(String.format("%c[P", 27));
 		}
 	}
 
@@ -54,7 +51,6 @@ public class Line extends Observable{
 		if (this.pos >= 0 && this.pos < this.line.size()){
 			this.line.remove(this.pos);
 			notifyObservers(SpecialKeys.SUPRIMIR);
-			//System.out.print(String.format("%c[P", 27));
 		}
 	}
 
@@ -63,7 +59,6 @@ public class Line extends Observable{
 		if (this.pos < line.size()){
 			this.pos++;
 			notifyObservers(SpecialKeys.FLETXA_DRT);
-		//	System.out.print(String.format("%c[C", 27));
 		}
 	}
 
@@ -72,7 +67,6 @@ public class Line extends Observable{
 		if (pos > 0){
 			this.pos--;
 			notifyObservers(SpecialKeys.FLETXA_ESQ);
-		//	System.out.print(String.format("%c[D", 27));
 		}
 	}
 
@@ -80,14 +74,12 @@ public class Line extends Observable{
 		setChanged();
 		this.pos = 0;
 		notifyObservers(SpecialKeys.HOME);
-	//	System.out.print(String.format("%c[G", 27));
 	}
 
 	public void fin(){
 		setChanged();
 		this.pos = this.line.size();
 		notifyObservers(SpecialKeys.FIN);
-	//	System.out.print(String.format("%c["+(this.line.size()+1)+"G", 27));
 	}
 
 	public void insert(){
