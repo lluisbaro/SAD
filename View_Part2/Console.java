@@ -8,7 +8,7 @@ public class Console implements Observer {
 	public Console(Line line){
 		this.line = line;
 	}
-
+        @Override
 	public void update(Observable o, Object arg){
 		int seq = ((Integer)arg).intValue();
 		//System.out.print(seq);

@@ -12,24 +12,26 @@ public class EditableBufferedReader extends BufferedReader{
 		INS:	ESC [ 2 ~
 		DEL:	ESC [ 3 ~
 	*/
-	public static final int INSERT = 2;
-	public static final int SUPRIMIR = 3;
 	public static final int CR = 13;
 	public static final int ESC = 27;
+        public static final int INSERT = 50;//'2'
+	public static final int SUPRIMIR = 51;//'3'
 	public static final int FLETXA_DRT = 67; //C
 	public static final int FLETXA_ESQ = 68; //D
+        public static final int FIN = 70; //F
 	public static final int HOME = 72; //H
-	public static final int FIN = 79; //O
-	public static final int FIN2 = 79; //O
+	public static final int O = 79; //O
+        public static final int BRACKET = 91;//[
 	public static final int BACKSPACE = 127;
-
-	public final Line linia;
-	public final Console console;
+	/* Variables no Estàtiques */
+        public final Line linia;
+        public final Console console;
 	
 	public EditableBufferedReader(InputStreamReader in){
 		super(in);
 		this.linia = new Line();
-		this.console = new Console(this.linia);
+                this.console = new Console(this.linia);
+                this.linia.addObserver(this.console);
 	}
 	
 	public void setRaw(){
@@ -62,11 +64,10 @@ public class EditableBufferedReader extends BufferedReader{
 	}
 	
 	public int read() throws IOException{
-		linia.addObserver(console);
-		int car = -1;
+		int car = 0;
 		try{
 			if ((car = super.read()) == ESC){
-				if ((car = super.read()) == '['){
+				if ((car = super.read()) == BRACKET){
 					switch (car = super.read()){
 						case FLETXA_ESQ:
 							car = SpecialKeys.FLETXA_ESQ;
@@ -92,7 +93,19 @@ public class EditableBufferedReader extends BufferedReader{
 							car = SpecialKeys.ALTRES;
 							break;
 					}
-				}
+				}else if(car == O){
+                                    switch (car = super.read()){
+                                        case HOME:
+                                            car = SpecialKeys.HOME;
+                                            break;
+                                        case FIN: 
+                                            car = SpecialKeys.FIN;
+                                            break;
+                                        default:
+                                            car = SpecialKeys.ALTRES;
+                                            break;
+                                    }
+                                }
 			} else if (car == BACKSPACE){
 				car = SpecialKeys.BACKSPACE;
 			}
@@ -146,5 +159,4 @@ public class EditableBufferedReader extends BufferedReader{
 			return linia.toString(); 
 		}
 	}
-	
 }
