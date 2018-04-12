@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 
 /**
  *
- * @author jordimaripare
+ * @author Jordi Marias Parella
  */
 public class Client {
     private InetAddress ip;
@@ -26,6 +26,16 @@ public class Client {
         this.input = new InputThreadClient(this.s.getPrintWriter());
         this.output = new OutputThreadClient(this.s.getBufferedReader());
     }
+
+    public InputThreadClient getInput() {
+        return input;
+    }
+
+    public OutputThreadClient getOutput() {
+        return output;
+    }
     
-    
+    public void close() throws IOException{
+        this.s.close();
+    }
 }
