@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package XatJava;
+package XatJavaClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,8 +24,16 @@ import java.util.logging.Logger;
  */
 public class MySocket extends Socket {
 
-    public MySocket(InetAddress address, int port) throws IOException {
-        super(address, port);
+    public MySocket(InetAddress address, int port) {
+        super();
+        InetSocketAddress addr = new InetSocketAddress(address, port);
+        try {
+            this.connect(addr);
+        } catch (IOException ex) {
+            Logger.getLogger(MySocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 
     @Override
