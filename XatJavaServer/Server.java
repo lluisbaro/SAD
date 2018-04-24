@@ -27,18 +27,30 @@ public class Server implements Runnable {
         }
     }
 
+
     @Override
     public void run() {
         try {
             while (true) {
                 MySocket s = this.serverSocket.accept();
                 String inicial = s.getBufferedReader().readLine();
-                
+
+                String[] parser = inicial.split(": ");
+                String usr = parser[1];
+
+                this.mapa.putNick;
+
             }
 
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public MySocket putNick(String nick, MySocket s){
+    	if ( !this.mapa.containsKey(nick)){
+    		this.mapa.put(nick, s);
+    	}
     }
 
 }
