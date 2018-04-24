@@ -38,19 +38,23 @@ public class Server implements Runnable {
                 String[] parser = inicial.split(": ");
                 String usr = parser[1];
 
-                this.mapa.putNick;
+                this.putNick(usr, s);
+                
 
             }
 
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DoubleNickException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public MySocket putNick(String nick, MySocket s){
+    public MySocket putNick(String nick, MySocket s) throws DoubleNickException{
     	if ( !this.mapa.containsKey(nick)){
-    		this.mapa.put(nick, s);
+    		return this.mapa.put(nick, s);
     	}
+        return null;
     }
 
 }
