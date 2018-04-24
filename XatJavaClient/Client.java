@@ -16,21 +16,16 @@ import java.util.logging.Logger;
  * @author Jordi Marias Parella
  */
 public class Client {
-    private InetAddress ip;
     private MySocket s;
     private InputThreadClient input;
     private OutputThreadClient output;
+    private String nick;
     
-    public Client(){
-        byte[] ipAddr = new byte[]{127, 0, 0, 1};        
-        try {
-            this.ip = InetAddress.getByAddress(ipAddr);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.s = new MySocket(this.ip, 5000);
-        this.input = new InputThreadClient(this.s.getPrintWriter());
-        this.output = new OutputThreadClient(this.s.getBufferedReader());
+    public Client(InetAddress ip, int port, String n ){
+        this.nick = n;
+        this.s = new MySocket(ip, port);
+        this.input = new InputThreadClient(this);
+        this.output = new OutputThreadClient(this);
     }
     public InputThreadClient getInput() {
         return input;
@@ -38,6 +33,14 @@ public class Client {
 
     public OutputThreadClient getOutput() {
         return output;
+    }
+
+    public MySocket getS() {
+        return s;
+    }
+
+    public String getNick() {
+        return nick;
     }
     
     public void close() throws IOException{

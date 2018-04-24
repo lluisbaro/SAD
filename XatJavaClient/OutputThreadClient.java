@@ -15,10 +15,11 @@ import java.util.logging.Logger;
  * @author jordimaripare
  */
 public class OutputThreadClient implements Runnable{
-
+    private Client c;
     private BufferedReader r;
-    public OutputThreadClient(BufferedReader r){
-        this.r = r;
+    public OutputThreadClient(Client c){
+        this.c = c;
+        this.r = this.c.getS().getBufferedReader();
     }
     @Override
     public void run() {

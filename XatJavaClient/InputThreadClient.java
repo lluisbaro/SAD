@@ -17,10 +17,12 @@ import java.util.logging.Logger;
  * @author jordimaripare
  */
 public class InputThreadClient implements Runnable{
+    private Client c;
     private PrintWriter p;
     private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    public InputThreadClient(PrintWriter p) {
-        p = this.p;
+    public InputThreadClient(Client c) {
+        this.c = c;
+        this.p = this.c.getS().getPrintWriter();        
     }
 
     @Override
