@@ -25,13 +25,21 @@ public class Server implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     @Override
     public void run() {
-        
+        try {
+            while (true) {
+                MySocket s = this.serverSocket.accept();
+                String inicial = s.getBufferedReader().readLine();
+                
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
 }
 
