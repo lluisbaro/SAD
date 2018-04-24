@@ -29,6 +29,7 @@ public class InputThreadClient implements Runnable{
         try {
             while ((linia = in.readLine()) != null){
                 p.print(linia);
+                System.out.println(linia);
                 p.flush();
             }
         } catch (IOException ex) {
