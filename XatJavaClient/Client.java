@@ -46,4 +46,41 @@ public class Client {
     public void close() throws IOException{
         this.s.close();
     }
+
+    /* Hauriem de demanar al client les dades no? adress, port, nickname 
+        fer un main(String[] args)
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        print("Adress:");
+        String ip = in.readline();
+        print("port:");
+        port = readline
+        print("nick:");
+        nick = readline
+        s = new Mysocket(ip,port);
+    */
+
+    // Cridar a INPutThread 
+    // Cridar OutputThread
+
+        //Penso que els podriem posar directament aqui com
+/*
+        (new Thread(){
+            public void run() {
+                try{
+                    while(!null)
+                        print linia
+                } catch (IOException e) {
+                }
+            }
+        }).start();
+
+        ....
+
+        */
+
+
+
+
+
+
 }
