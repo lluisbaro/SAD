@@ -5,7 +5,8 @@
  */
 package XatJavaServer;
 import XatJavaClient.MySocket;
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 /**
@@ -15,12 +16,21 @@ import java.net.Socket;
 public class MyServerSocket extends ServerSocket {
 
     public MyServerSocket(int port) throws IOException {
-        super(port);
+    	try{
+    		super(port);
+    	} catch (IOException e){
+    		e.printStackTrace();
+    	}
     }
 
     @Override
     public MySocket accept() throws IOException {
-        return (MySocket)super.accept(); //To change body of generated methods, choose Tools | Templates.
+    	try{
+    		return (MySocket)super.accept(); //To change body of generated methods, choose Tools | Templates.
+    	} catch (IOException e){
+    		Logger.getLogger(MyServerSocket.class.getName()).log(Level.SEVERE, null, e);
+    		return null; // Si no s'accepta retorna null
+    	}
     }
     
     
