@@ -1,1 +1,3 @@
 *.class
+/WebServer/build/
+/WebServer/nbproject/private/
