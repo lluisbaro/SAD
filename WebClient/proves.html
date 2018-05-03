@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>Xat Javascript</title>
+  <script>
+  ws = new WebSocket('ws://127.0.0.1:8887');
+  var output = '';
+  function enviar(){
+    var missatge = document.getElementById('entrada').value;
+    ws.send(missatge);
+  }
+  ws.onmessage = function (event) {
+    output = output+event.data+'<br>';
+    document.getElementById('sortida').innerHTML=output;
+  }
+  </script>
+
+</head>
+<body>
+  <p id="sortida"></p>
+
+  <input type="text" id="entrada" on>
+  <button onclick="enviar()">enviar</button>
+
+</body>
+</html>
