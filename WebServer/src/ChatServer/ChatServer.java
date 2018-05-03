@@ -50,12 +50,15 @@ public class ChatServer extends WebSocketServer {
 	public ChatServer( InetSocketAddress address ) {
 		super( address );
 	}
+        
+        //canvis
+          
 
 	@Override
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
 		conn.send("Welcome to the server!"); //This method sends a message to the new client
 		broadcast( "new connection: " + handshake.getResourceDescriptor() + conn.toString()); //This method sends a message to all clients connected
-                broadcast ( "usr" + conn.toString());
+                broadcast ( "usr: " + conn.toString());
 		System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
 	}
 
@@ -67,12 +70,12 @@ public class ChatServer extends WebSocketServer {
 
 	@Override
 	public void onMessage( WebSocket conn, String message ) {
-		broadcast( message );
+		broadcast(conn.toString() + ": " + message );
 		System.out.println( conn + ": " + message );
 	}
 	@Override
 	public void onMessage( WebSocket conn, ByteBuffer message ) {
-		broadcast( message.array() );
+		broadcast(conn.toString() + ": " + message.array() );
 		System.out.println( conn + ": " + message );
 	}
 
