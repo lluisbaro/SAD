@@ -2,8 +2,9 @@
 <head>
   <meta charset="utf-8">
   <title>Xat Javascript</title>
+   <script src="client_controller.js"></script>
   <script>
-  ws = new WebSocket('ws://127.0.0.1:8887');
+  ws = new WebSocket('ws://localhost:8080');
   var output = '';
   function enviar(){
     var missatge = document.getElementById('entrada').value;
