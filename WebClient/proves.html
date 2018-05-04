@@ -6,7 +6,7 @@
   <script src="ClientController.js"></script>
   <script src="ClientModel.js"></script>
   <script>
-  var event = new Event('refresh');
+  var clientController;
   function once_loaded(){
     var xat = document.getElementById("xat");
     xat.style.display = "none";
@@ -15,10 +15,18 @@
     document.getElementById("xat").style.display="block";
     document.getElementById("inici").style.display="none";
     var nick = document.getElementById('nick').value;
-    var clientController = new ClientController('ws://127.0.0.1:8887', nick);
+    clientController = new ClientController('ws://127.0.0.1:8887', nick);
   }
   function send(){
-    clientController.send(document.getElementById('missatge').value);
+    var missatge = document.getElementById('missatge');
+    clientController.send(missatge.value);
+    missatge.value = "";
+  }
+  function refresh(){
+    var missatges = clientController.messages;
+    var missatge = missatges[missatges.length-1];
+    var textXat = document.getElementById('textXat').innerHTML;
+    textXat = textXat+'<br>'+missatge.nick+': '+missatge.message;
   }
 
 

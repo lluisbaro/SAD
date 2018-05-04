@@ -14,6 +14,6 @@ function Messages(){
   function put(message){
     this.messages.push(message);
     //Despres de l'actualitzacio hem d'avisar a la vista
-
+    refresh();
   }
 }
