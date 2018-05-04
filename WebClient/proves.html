@@ -1,27 +1,40 @@
 <!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8">
   <title>Xat Javascript</title>
-   <script src="client_controller.js"></script>
+  <script src="ClientController.js"></script>
+  <script src="ClientModel.js"></script>
   <script>
-  ws = new WebSocket('ws://localhost:8080');
-  var output = '';
-  function enviar(){
-    var missatge = document.getElementById('entrada').value;
-    ws.send(missatge);
+  var event = new Event('refresh');
+  function once_loaded(){
+    var xat = document.getElementById("xat");
+    xat.style.display = "none";
   }
-  ws.onmessage = function (event) {
-    output = output+event.data+'<br>';
-    document.getElementById('sortida').innerHTML=output;
+  function main_start(){
+    document.getElementById("xat").style.display="block";
+    document.getElementById("inici").style.display="none";
+    var nick = document.getElementById('nick').value;
+    var clientController = new ClientController('ws://127.0.0.1:8887', nick);
   }
+  function send(){
+    clientController.send(document.getElementById('missatge').value);
+  }
+
+
+
   </script>
-
 </head>
-<body>
-  <p id="sortida"></p>
+<body onload="once_loaded()">
 
-  <input type="text" id="entrada" on>
-  <button onclick="enviar()">enviar</button>
+  <div id="inici">
+    <input type="text" id="nick" maxlength="100"><button onclick="main_start()">Entrar!</button>
+  </div>
+  <div id="xat">
+    <div id="textXat">
 
+    </div>
+    <input type="text" id="missatge" maxlength="100"><button onclick="main_start()">Enviar!</button>
+  </div>
 </body>
 </html>
