@@ -15,7 +15,7 @@
     document.getElementById("xat").style.display="block";
     document.getElementById("inici").style.display="none";
     var nick = document.getElementById('nick').value;
-    clientController = new ClientController('ws://127.0.0.1:8887', nick);
+    clientController = new ClientController('ws://127.0.0.1:8080', nick);
   }
   function send(){
     var missatge = document.getElementById('missatge');
