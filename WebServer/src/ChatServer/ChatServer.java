@@ -31,6 +31,7 @@ import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.WebSocketImpl;
@@ -42,6 +43,8 @@ import org.java_websocket.server.WebSocketServer;
  * A simple WebSocketServer implementation. Keeps track of a "chatroom".
  */
 public class ChatServer extends WebSocketServer {
+    
+    private ConcurrentHashMap<String, WebSocket> mapa = new ConcurrentHashMap<String, WebSocket>();
 
 	public ChatServer( int port ) throws UnknownHostException {
 		super( new InetSocketAddress( port ) );
@@ -70,12 +73,21 @@ public class ChatServer extends WebSocketServer {
 
 	@Override
 	public void onMessage( WebSocket conn, String message ) {
-		broadcast(conn.toString() + ": " + message );
-		System.out.println( conn + ": " + message );
+            //parsing message, extreiem nick i posem al mapa
+                String[] parser = message.split("&%:");
+                String usr = parser[0];
+
+                if (!this.mapa.containsKey(usr)){
+                    this.mapa.put(usr, conn);
+                }
+
+                broadcast(message);
+                System.out.println( conn + ": " + message );
+            
 	}
 	@Override
 	public void onMessage( WebSocket conn, ByteBuffer message ) {
-		broadcast(conn.toString() + ": " + message.array() );
+		broadcast( message.array() );
 		System.out.println( conn + ": " + message );
 	}
 
@@ -90,7 +102,7 @@ public class ChatServer extends WebSocketServer {
 		ChatServer s = new ChatServer( port );
 		s.start();
 		System.out.println( "ChatServer started on port: " + s.getPort() );
-
+                
 		BufferedReader sysin = new BufferedReader( new InputStreamReader( System.in ) );
 		while ( true ) {
 			String in = sysin.readLine();
