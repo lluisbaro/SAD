@@ -6,10 +6,13 @@
   <script src="ClientController.js"></script>
   <script src="ClientModel.js"></script>
   <script>
+  var messages = new Messages();
   var clientController;
+  var textXat;
   function once_loaded(){
     var xat = document.getElementById("xat");
     xat.style.display = "none";
+    textXat = document.getElementById('textXat').innerHTML;
   }
   function main_start(){
     document.getElementById("xat").style.display="block";
@@ -22,11 +25,11 @@
     clientController.send(missatge.value);
     missatge.value = "";
   }
-  function refresh(){
-    var missatges = clientController.messages;
-    var missatge = missatges[missatges.length-1];
-    var textXat = document.getElementById('textXat').innerHTML;
+  function refresh(missatge){
+    //document.write(messages.messages.nick[0]);
+    //var missatge = messages[messages.length-1];
     textXat = textXat+'<br>'+missatge.nick+': '+missatge.message;
+    document.getElementById('textXat').innerHTML = textXat;
   }
 
 
@@ -42,7 +45,7 @@
     <div id="textXat">
 
     </div>
-    <input type="text" id="missatge" maxlength="100"><button onclick="main_start()">Enviar!</button>
+    <input type="text" id="missatge" maxlength="100"><button onclick="send()">Enviar!</button>
   </div>
 </body>
 </html>

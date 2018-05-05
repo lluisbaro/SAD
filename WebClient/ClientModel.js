@@ -8,12 +8,10 @@ function Message(nick, message){
 }
 
 function Messages(){
-
   this.messages = new Array();
-
-  function put(message){
-    this.messages.push(message);
-    //Despres de l'actualitzacio hem d'avisar a la vista
-    refresh();
-  }
+  this.messages.push(new Message('Missatge', 'Inicial'));
+}
+Messages.prototype.put = function(message){
+  this.messages.push(message);
+  refresh(message);
 }
