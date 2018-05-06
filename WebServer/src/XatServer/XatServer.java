@@ -42,9 +42,9 @@ public class XatServer extends WebSocketServer{
 
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        conn.send("Welcome to the server!"); //This method sends a message to the new client
-        broadcast( "new connection: " + handshake.getResourceDescriptor() + conn.toString()); //This method sends a message to all clients connected
-        broadcast ( "usr: " + conn.toString());
+        //conn.send("Welcome to the server!"); //This method sends a message to the new client
+        //broadcast( "new connection: " + handshake.getResourceDescriptor() + conn.toString()); //This method sends a message to all clients connected
+        //broadcast ( "usr: " + conn.toString());
         System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
     }
 
@@ -56,13 +56,12 @@ public class XatServer extends WebSocketServer{
     @Override
     public void onMessage(WebSocket conn, String message) {
         //parsing message, extreiem nick i posem al mapa
-        String[] parser = message.split("&%:");
-        String usr = parser[1];
-        String msg = parser[2];
+        //String[] parser = message.split("&%:");
+        //String usr = parser[0];
         
-        if (!this.mapa.containsKey(usr)){
-            this.mapa.put(usr, conn);
-    	}
+        //if (!this.mapa.containsKey(usr)){
+        //    this.mapa.put(usr, conn);
+    	//}
         
         broadcast(message);
         System.out.println( conn + ": " + message );
@@ -83,7 +82,7 @@ public class XatServer extends WebSocketServer{
     
     public static void main( String[] args ) throws InterruptedException , IOException {
 		WebSocketImpl.DEBUG = true;
-		int port = 8080;
+		int port = 8081;
 		try {
                     port = Integer.parseInt( args[ 0 ] );
 		} catch ( Exception ex ) {}
