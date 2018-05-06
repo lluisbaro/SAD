@@ -116,7 +116,8 @@
   </style>
 </head>
 <body onload="once_loaded()" style="top: 300px">
-  <div id="inici" class="justify-content-center align-items-center">
+  <div id="inici" style="margin: 0 auto; width: 50%;">
+    <h1>Benvingut a la Sala del Xat</h1>
       <form onsubmit="return main_start()" height="100%">
       <div class="text" style="background:whitesmoke !important">
           <input class="mytext" id="nick" height="100%" placeholder="Escriu el teu nom" />
@@ -127,12 +128,11 @@
             <ul></ul>
             <div>
                 <div class="msj-rta macro">
-                    <div class="text text-r"  style="background:whitesmoke !important">
-                      <form onsubmit="return send()">
+                    <div class="text text-r" style="background:whitesmoke !important">
+                        <form onsubmit="return send()" class="mytext" >
                         <input class="mytext" id="missatge" placeholder="Escriu un missatge" />
-                      </form>
+                        </form>
                     </div>
-
                 </div>
                 <div style="padding:10px;">
                   <button type="submit" onclick="send()" class="btn btn-primary">
