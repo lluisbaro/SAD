@@ -10,6 +10,10 @@
   <script src="ClientModel.js"></script>
   <script src="view.js"></script>
   <style type="text/css">
+  body{
+    background:#e0e0de;
+    background-repeat: repeat;
+  }
   .mytext{
       border:0;padding:10px;background:whitesmoke;
   }
@@ -47,6 +51,7 @@
   }
   .frame{
       background:#e0e0de;
+      /*background-repeat: repeat;*/
       height:450px;
       overflow:hidden;
       padding:0;
@@ -110,24 +115,29 @@
   }
   </style>
 </head>
-<body onload="once_loaded()">
-
-  <div id="inici" class="content">
-    <div class="centrat">
-    <input type="text" id="nick" maxlength="100"><button onclick="main_start()">Entrar!</button>
-  </div>
+<body onload="once_loaded()" style="top: 300px">
+  <div id="inici" class="justify-content-center align-items-center">
+      <form onsubmit="return main_start()" height="100%">
+      <div class="text" style="background:whitesmoke !important">
+          <input class="mytext" id="nick" height="100%" placeholder="Escriu el teu nom" />
+      </div>
+      </form>
   </div>
   <div class="frame" id="post">
             <ul></ul>
             <div>
                 <div class="msj-rta macro">
-                    <div class="text text-r" style="background:whitesmoke !important">
+                    <div class="text text-r"  style="background:whitesmoke !important">
+                      <form onsubmit="return send()">
                         <input class="mytext" id="missatge" placeholder="Escriu un missatge" />
+                      </form>
                     </div>
 
                 </div>
                 <div style="padding:10px;">
-                    <span class="glyphicon glyphicon-share-alt" onclick="send()"></span>
+                  <button type="submit" onclick="send()" class="btn btn-primary">
+          Enviar <i class="fa fa-paper-plane"></i>
+          </button>
                 </div>
             </div>
         </div>

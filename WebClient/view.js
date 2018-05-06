@@ -9,11 +9,15 @@ function main_start(){
   document.getElementById("post").style.display="block";
   var nick = document.getElementById('nick').value;
   clientController = new ClientController('ws://127.0.0.1:8887', nick);
+  return false;
 }
 function send(){
   var missatge = document.getElementById('missatge');
-  clientController.send(missatge.value);
-  missatge.value="";
+  if (missatge.value != ""){
+    clientController.send(missatge.value);
+    missatge.value="";
+  }
+  return false;
 }
 function refresh(missatge){
   insertChat(missatge.nick, missatge.message);
@@ -47,7 +51,7 @@ function insertChat(who, text){
     }else{
         control = '<li style="width:100%;">' +
                         '<div class="msj-rta macro">' +
-                            '<div class="text text-r">' +
+                            '<div class="text text-r"> <b>'+who+'</b>' +
                                 '<p>'+text+'</p>' +
                                 '<p><small>'+date+'</small></p>' +
                             '</div>' +
@@ -62,19 +66,6 @@ function resetChat(){
     $("ul").empty();
 }
 
-$(".mytext").on("keydown", function(e){
-    if (e.which == 13){
-        var text = $(this).val();
-        if (text !== ""){
-            clientController.send(text);
-            $(this).val('');
-        }
-    }
-});
-
-$('body > div > div > div:nth-child(2) > span').click(function(){
-    $(".mytext").trigger({type: 'keydown', which: 13, keyCode: 13});
-})
 
 //-- Clear Chat
 resetChat();
