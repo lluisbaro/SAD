@@ -5,6 +5,8 @@ var textXat;
 function once_loaded(){
   //Amaguem el xat
   document.getElementById("post").style.display="none";
+  clientController = new ClientController('ws://localhost:8080');
+
 }
 function main_start(){
   //Amaguem el formulari inicial i mostrem el xat
@@ -12,7 +14,7 @@ function main_start(){
   document.getElementById("post").style.display="block";
   //Agafem el valor del nick i el guardem
   var nick = document.getElementById('nick').value;
-  clientController = new ClientController('ws://localhost:8080', nick);
+  clientController.setNick(nick);
   //retornem false perquè el formulari no recarregui la pàgina
   return false;
 }

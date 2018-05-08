@@ -1,10 +1,9 @@
 //import {Message, Messages} from "ClientModel.js";
 
-function ClientController(address, nick){
-
+function ClientController(address){
   this.webSocket = new WebSocket(address);
-  //this.webSocket = new WebSocket(adress,nick); com passar-li el nick Al Server?
-  this.nick = nick;
+  this.nick;
+
 
   this.webSocket.onmessage = function(event){ onMessage(event); }
 
@@ -16,8 +15,12 @@ function ClientController(address, nick){
 
 }
 ClientController.prototype.send = function(message){
+
   this.webSocket.send(this.nick+'&%:'+message);
   return this;
+}
+ClientController.prototype.setNick = function(nick){
+  this.nick = nick;
 }
 
 //Al connectar s'envia el nick amb el següent format: &% Nick: <Nick>&%
