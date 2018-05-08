@@ -1,6 +1,8 @@
 var messages = new Messages();
 var clientController;
 var textXat;
+var wait;
+var confirmed;
 //Aquesta funció s'executa un cop carregada la pàgina així podem obtenir tots els elements de la mateixa;
 function once_loaded(){
   //Amaguem el xat
@@ -9,12 +11,20 @@ function once_loaded(){
 
 }
 function main_start(){
-  //Amaguem el formulari inicial i mostrem el xat
-  document.getElementById("inici").style.display="none";
-  document.getElementById("post").style.display="block";
   //Agafem el valor del nick i el guardem
   var nick = document.getElementById('nick').value;
-  clientController.setNick(nick);
+  clientController.checkNick(nick);
+  wait = true;
+  confirmed = false;
+  while(!wait){}
+  if (confirmed){
+    //Amaguem el formulari inicial i mostrem el xat
+    document.getElementById("inici").style.display="none";
+    document.getElementById("post").style.display="block";
+  }else{
+    document.getElementById('bad_nick').innerHTML = "Aquest nom ja està agafat!";
+  }
+
   //retornem false perquè el formulari no recarregui la pàgina
   return false;
 }
