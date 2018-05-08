@@ -32,6 +32,8 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.WebSocketImpl;
@@ -61,7 +63,7 @@ public class ChatServer extends WebSocketServer {
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
 		conn.send("Benvingut a la sala!"); //This method sends a message to the new client
 		//broadcast( "new connection: " + handshake.getResourceDescriptor() + conn.toString()); //This method sends a message to all clients connected
-		System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
+		//System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
 	}
         
 	@Override
@@ -72,16 +74,22 @@ public class ChatServer extends WebSocketServer {
 
 	@Override
 	public void onMessage( WebSocket conn, String message ) {
-            //parsing message, extreiem nick i posem al mapa
-                String[] parser = message.split("&%:");
-                String usr = parser[0];
-
-                if (!this.mapa.containsKey(usr)){
-                    this.mapa.put(usr, conn);
+                //parsing message, extreiem nick i posem al mapa
+                Pattern hasNick = Pattern.compile("&%hasNick'(.*?)'");
+                Matcher nickm = hasNick.matcher(message);
+                if(nickm.find()){
+                    if(mapa.containsKey(nickm.group(1))){
+                        conn.send("&%BAD_NICKNAME");
+                    }
+                    else{
+                        conn.send("&%OK");
+                        this.mapa.put(nickm.group(1), conn);
+                    }
+                        
+                }else{
+                    broadcast(message);
+                    System.out.println( conn + ": " + message );
                 }
-
-                broadcast(message);
-                System.out.println( conn + ": " + message );
             
 	}
 	@Override
