@@ -51,7 +51,7 @@ function insertChat(who, text){
     if (who == clientController.nick){
         control = '<li style="width:100%">' +
                         '<div class="msj-rta macro">' +
-                            '<div class="text text-l">' +
+                            '<div class="text text-l">' + //tmb podem posar-li el who
                                 '<p>'+ text +'</p>' +
                                 '<p><small>'+date+'</small></p>' +
                             '</div>' +
