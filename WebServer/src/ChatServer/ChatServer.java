@@ -61,6 +61,7 @@ public class ChatServer extends WebSocketServer {
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
 		conn.send("Welcome to the server!"); //This method sends a message to the new client
 		broadcast( "new connection: " + handshake.getResourceDescriptor() + conn.toString()); //This method sends a message to all clients connected
+                //Molaria que dongues benvinguda al usr
 		System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
 	}
 
