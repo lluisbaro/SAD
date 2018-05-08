@@ -2,6 +2,7 @@ function Message(nick, message){
   this.message = message;
   this.nick = nick;
 //Comprovar que tenen nick diferent
+
   function toString(){
     return this.nick+': '+this.message;
   }

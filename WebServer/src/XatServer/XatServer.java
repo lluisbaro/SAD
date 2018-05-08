@@ -15,13 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.java_websocket.WebSocket;
 import org.java_websocket.WebSocketImpl;
 import org.java_websocket.handshake.ClientHandshake;
-import org.java_websocket.server.WebSocketServer;
+import org.java_websocketXAT.server.XATWebSocketServer;
 
 /**
  *
  * @author lluis
  */
-public class XatServer extends WebSocketServer{
+public class XatServer extends XATWebSocketServer{
     
     private ConcurrentHashMap<String, WebSocket> mapa = new ConcurrentHashMap<String, WebSocket>();
     
@@ -41,7 +41,8 @@ public class XatServer extends WebSocketServer{
     }
 
     @Override
-    public void onOpen(WebSocket conn, ClientHandshake handshake) {
+    public void onOpen(WebSocket conn, ClientHandshake handshake, String message) {
+        //s'ha de canviar Websocket Server
         //conn.send("Welcome to the server!"); //This method sends a message to the new client
         //broadcast( "new connection: " + handshake.getResourceDescriptor() + conn.toString()); //This method sends a message to all clients connected
         //broadcast ( "usr: " + conn.toString());

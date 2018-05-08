@@ -3,8 +3,8 @@
 function ClientController(address, nick){
 
   this.webSocket = new WebSocket(address);
+  //this.webSocket = new WebSocket(adress,nick); com passar-li el nick Al Server?
   this.nick = nick;
-
 
   this.webSocket.onmessage = function(event){ onMessage(event); }
 
