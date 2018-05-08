@@ -12,7 +12,7 @@ function main_start(){
   document.getElementById("post").style.display="block";
   //Agafem el valor del nick i el guardem
   var nick = document.getElementById('nick').value;
-  clientController = new ClientController('ws://127.0.0.1:8081', nick);
+  clientController = new ClientController('ws://localhost:8080', nick);
   //retornem false perquè el formulari no recarregui la pàgina
   return false;
 }
