@@ -50,7 +50,7 @@ function insertChat(who, text){
 
     if (who == clientController.nick){
         control = '<li style="width:100%">' +
-                        '<div class="msj macro">' +
+                        '<div class="msj-rta macro">' +
                             '<div class="text text-l">' +
                                 '<p>'+ text +'</p>' +
                                 '<p><small>'+date+'</small></p>' +
@@ -59,7 +59,7 @@ function insertChat(who, text){
                     '</li>';
     }else{
         control = '<li style="width:100%;">' +
-                        '<div class="msj-rta macro">' +
+                        '<div class="msj macro">' +
                             '<div class="text text-r"> <b>'+who+'</b>' +
                                 '<p>'+text+'</p>' +
                                 '<p><small>'+date+'</small></p>' +
