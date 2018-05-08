@@ -47,6 +47,7 @@ import org.java_websocket.server.WebSocketServer;
 public class ChatServer extends WebSocketServer {
     
     private ConcurrentHashMap<String, WebSocket> mapa = new ConcurrentHashMap<String, WebSocket>();
+    private ConcurrentHashMap<Integer, WebSocket> map = new ConcurrentHashMap<Integer, WebSocket>();
 
 	public ChatServer( int port ) throws UnknownHostException {
 		super( new InetSocketAddress( port ) );
@@ -63,13 +64,16 @@ public class ChatServer extends WebSocketServer {
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
 		//conn.send("Benvingut a la sala!"); //This method sends a message to the new client
 		//broadcast( "new connection: " + handshake.getResourceDescriptor() + conn.toString()); //This method sends a message to all clients connected
-		//System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
+		System.out.println( conn.hashCode() + " entered the room!" + conn.toString());
+                System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
 	}
         
 	@Override
 	public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
-		broadcast( conn + " has left the room!" );
-		System.out.println( conn + " has left the room!" );
+                this.mapa.remove(conn.getAttachment());
+                broadcast(conn.getAttachment() + " ha deixat el Xat");
+                System.out.println(conn.getAttachment() + " ha deixat el Xat");
+		System.out.println( conn + " has left the room!" + reason);
 	}
 
 	@Override
@@ -86,15 +90,16 @@ public class ChatServer extends WebSocketServer {
                     else{
                         System.out.println("2");
                         conn.send("&%OK");
-                        this.mapa.put(nickm.group(1), conn);
+                        conn.setAttachment(nickm.group(1));
+                        this.mapa.put(nickm.group(1), conn);                        
                     }
                         
                 }else{
                     broadcast(message);
                     System.out.println( conn + ": " + message );
-                }
-            
+                }  
 	}
+        
 	@Override
 	public void onMessage( WebSocket conn, ByteBuffer message ) {
 		broadcast( message.array() );

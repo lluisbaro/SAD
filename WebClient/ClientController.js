@@ -31,7 +31,7 @@ ClientController.prototype.send = function(message){
 }
 ClientController.prototype.setNick = function(){
   confirmed = true;
-  var missatge = new Message("Benvingut al Xat!", "" );
+  var missatge = new Message("Benvingut al Xat! Usuari: "+ this.nick );
   messages.put(missatge);
 }
 ClientController.prototype.checkNick = function(nick){

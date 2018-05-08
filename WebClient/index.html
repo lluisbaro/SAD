@@ -116,33 +116,34 @@
   </style>
 </head>
 <body onload="once_loaded()" style="top: 300px">
-  <div id="inici" style="margin: 0 auto; width: 50%;">
+	<div id="inici" style="margin: 0 auto; width: 50%;">
     <h1>Benvingut a la Sala del Xat</h1>
     <p style="color: red" id="bad_nick"></p>
-      <form onsubmit="return main_start()" height="100%">
-      <div class="text" style="background:whitesmoke !important">
-          <input class="mytext" id="nick" height="100%" placeholder="Escriu el teu nom" />
-      </div>
-      </form>
-  </div>
-  <div class="frame" id="post">
-            <ul></ul>
-            <div>
-                <div class="msj-rta macro">
-                    <div class="text text-r" style="background:whitesmoke !important">
-                        <form onsubmit="return send()" class="mytext" >
-                        <input class="mytext" id="missatge" placeholder="Escriu un missatge" />
-                        <!--Per introduir text que sigui a tota la barra-->
-                        </form>
-                    </div>
-                </div>
-                <div style="padding:10px;">
-                  <button type="submit" onclick="send()" class="btn btn-primary">
-          Enviar <i class="fa fa-paper-plane"></i>
-          <!--Button borrarlo i deixar return send()-->
-          </button>
+    	<form onsubmit="return main_start()" height="100%">
+    	<div class="text" style="background:whitesmoke !important">
+    		<input class="mytext" id="nick" height="100%" placeholder="Escriu el teu nom" />
+		</div>
+		</form>
+	</div>
+	<div class="frame" id="post">
+		<ul></ul>
+		<div>
+			<div class="msj-rta macro">
+				<div class="text text-r" style="background:whitesmoke !important">
+					<form onsubmit="return send()" class="mytext" >
+					<input class="mytext" id="missatge" placeholder="Escriu un missatge" />
+                    </form>
                 </div>
             </div>
+            <div style="padding:10px;">
+                <button type="submit" onclick="send()" class="btn btn-primary">Enviar<i class="fa fa-paper-plane"></i>
+          		</button>
+            </div>
+            <div style="padding:10px;">
+                <button type="submit" onclick="return close_window()" class="btn btn-primary">Close <i class="fa fa-paper-plane"></i>
+          		</button>
+            </div>
         </div>
+    </div>
 </body>
 </html>
