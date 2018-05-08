@@ -3,8 +3,6 @@
 function ClientController(address){
   this.webSocket = new WebSocket(address);
   this.nick;
-
-
   this.webSocket.onmessage = function(event){ onMessage(event); }
   function onMessage(event){
     //Primer parsejem el missatge
@@ -12,9 +10,11 @@ function ClientController(address){
     if(dades.match("&%")!= undefined){
       if(dades.match("&%OK")=="&%OK"){
         clientController.setNick();
+        show_answer();
       }
       else if (dades.match("&%BAD_NICKNAME")=="&%BAD_NICKNAME") {
         wait = false;
+        show_answer();
       }
       else{
         dades = dades.split('&%:');
@@ -30,13 +30,11 @@ ClientController.prototype.send = function(message){
   return this;
 }
 ClientController.prototype.setNick = function(){
-  wait = false;
+  confirmed = true;
   var missatge = new Message("Benvingut al Xat!", "" );
   messages.put(missatge);
 }
-
 ClientController.prototype.checkNick = function(nick){
   this.webSocket.send("&%hasNick'"+nick+"'");
   this.nick = nick;
 }
-//Al connectar s'envia el nick amb el següent format: &% Nick: <Nick>&%

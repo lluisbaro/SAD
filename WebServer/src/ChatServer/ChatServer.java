@@ -78,10 +78,13 @@ public class ChatServer extends WebSocketServer {
                 Pattern hasNick = Pattern.compile("&%hasNick'(.*?)'");
                 Matcher nickm = hasNick.matcher(message);
                 if(nickm.find()){
+                    System.out.println(nickm.group(1));
                     if(mapa.containsKey(nickm.group(1))){
+                        System.out.println("1");
                         conn.send("&%BAD_NICKNAME");
                     }
                     else{
+                        System.out.println("2");
                         conn.send("&%OK");
                         this.mapa.put(nickm.group(1), conn);
                     }

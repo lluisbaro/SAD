@@ -1,7 +1,6 @@
 var messages = new Messages();
 var clientController;
 var textXat;
-var wait;
 var confirmed;
 //Aquesta funció s'executa un cop carregada la pàgina així podem obtenir tots els elements de la mateixa;
 function once_loaded(){
@@ -14,9 +13,11 @@ function main_start(){
   //Agafem el valor del nick i el guardem
   var nick = document.getElementById('nick').value;
   clientController.checkNick(nick);
-  wait = true;
   confirmed = false;
-  while(!wait){}
+  //retornem false perquè el formulari no recarregui la pàgina
+  return false;
+}
+function show_answer(){
   if (confirmed){
     //Amaguem el formulari inicial i mostrem el xat
     document.getElementById("inici").style.display="none";
@@ -24,9 +25,6 @@ function main_start(){
   }else{
     document.getElementById('bad_nick').innerHTML = "Aquest nom ja està agafat!";
   }
-
-  //retornem false perquè el formulari no recarregui la pàgina
-  return false;
 }
 function send(){
   //Agamfem el missatge del view i si té contingut l'enviem
