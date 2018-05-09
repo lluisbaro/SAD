@@ -7,8 +7,8 @@ function once_loaded(){
   //Amaguem el xat
   document.getElementById("post").style.display="none";
   clientController = new ClientController('ws://localhost:8080');
-
 }
+
 function main_start(){
   //Agafem el valor del nick i el guardem
   var nick = document.getElementById('nick').value;
@@ -17,15 +17,17 @@ function main_start(){
   //retornem false perquè el formulari no recarregui la pàgina
   return false;
 }
+
 function show_answer(){
   if (confirmed){
     //Amaguem el formulari inicial i mostrem el xat
     document.getElementById("inici").style.display="none";
     document.getElementById("post").style.display="block";
-  }else{
+  } else{
     document.getElementById('bad_nick').innerHTML = "Aquest nom ja està agafat!";
   }
 }
+
 function send(){
   //Agamfem el missatge del view i si té contingut l'enviem
   var missatge = document.getElementById('missatge');
@@ -35,6 +37,7 @@ function send(){
   }
   return false;
 }
+
 function refresh(missatge){
   //Cada cop que rebem algun missatge el model avisa mitjançant refresh perquè aparegui el nou missatge
   insertChat(missatge.nick, missatge.message);
@@ -61,7 +64,7 @@ function insertChat(who, text){
     if (who == clientController.nick){
         control = '<li style="width:100%">' +
                         '<div class="msj-rta macro">' +
-                            '<div class="text text-l">' + //tmb podem posar-li el who
+                            '<div class="text text-l">' + //'<div class="text text-l"> Jo:'
                                 '<p>'+ text +'</p>' +
                                 '<p><small>'+date+'</small></p>' +
                             '</div>' +
@@ -82,10 +85,8 @@ function insertChat(who, text){
 }
 
 function resetChat(){
-
     $("ul").empty();
 }
-
 
 //-- Clear Chat
 resetChat();
