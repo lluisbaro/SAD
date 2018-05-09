@@ -70,10 +70,10 @@ public class ChatServer extends WebSocketServer {
         
 	@Override
 	public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
-                this.mapa.remove(conn.getAttachment());
-                broadcast(conn.getAttachment() + " ha deixat el Xat");
+                broadcast(conn.getAttachment() + " ha deixat el Xat &%:");
                 System.out.println(conn.getAttachment() + " ha deixat el Xat");
 		System.out.println( conn + " has left the room!" + reason);
+                this.mapa.remove(conn.getAttachment());
 	}
 
 	@Override
@@ -91,7 +91,8 @@ public class ChatServer extends WebSocketServer {
                         System.out.println("2");
                         conn.send("&%OK");
                         conn.setAttachment(nickm.group(1));
-                        this.mapa.put(nickm.group(1), conn);                        
+                        this.mapa.put(nickm.group(1), conn);
+                        broadcast(nickm.group(1)+" ha entrat al Xat!"+"&%:");
                     }
                         
                 }else{
