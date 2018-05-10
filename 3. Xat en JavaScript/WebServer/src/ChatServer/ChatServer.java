@@ -47,7 +47,6 @@ import org.java_websocket.server.WebSocketServer;
 public class ChatServer extends WebSocketServer {
     
     private ConcurrentHashMap<String, WebSocket> mapa = new ConcurrentHashMap<String, WebSocket>();
-    private ConcurrentHashMap<Integer, WebSocket> map = new ConcurrentHashMap<Integer, WebSocket>();
 
 	public ChatServer( int port ) throws UnknownHostException {
 		super( new InetSocketAddress( port ) );
@@ -57,48 +56,42 @@ public class ChatServer extends WebSocketServer {
 		super( address );
 	}
         
-        //canvis
-          
-
+    //canvis
 	@Override
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
 		//conn.send("Benvingut a la sala!"); //This method sends a message to the new client
 		//broadcast( "new connection: " + handshake.getResourceDescriptor() + conn.toString()); //This method sends a message to all clients connected
 		System.out.println( conn.hashCode() + " entered the room!" + conn.toString());
-                System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
+        //System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
 	}
         
 	@Override
 	public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
-                broadcast(conn.getAttachment() + " ha deixat el Xat &%:");
-                System.out.println(conn.getAttachment() + " ha deixat el Xat");
-		System.out.println( conn + " has left the room!" + reason);
-                this.mapa.remove(conn.getAttachment());
+		broadcast(conn.getAttachment() + " ha deixat el Xat &%:");
+        System.out.println(conn.getAttachment() + " ha deixat el Xat");
+		//System.out.println( conn + " has left the room!" + reason);
+        this.mapa.remove(conn.getAttachment());
 	}
 
 	@Override
 	public void onMessage( WebSocket conn, String message ) {
-                //parsing message, extreiem nick i posem al mapa
-                Pattern hasNick = Pattern.compile("&%hasNick'(.*?)'");
-                Matcher nickm = hasNick.matcher(message);
-                if(nickm.find()){
-                    System.out.println(nickm.group(1));
-                    if(mapa.containsKey(nickm.group(1))){
-                        System.out.println("1");
-                        conn.send("&%BAD_NICKNAME");
-                    }
-                    else{
-                        System.out.println("2");
-                        conn.send("&%OK");
-                        conn.setAttachment(nickm.group(1));
-                        this.mapa.put(nickm.group(1), conn);
-                        broadcast(nickm.group(1)+" ha entrat al Xat!"+"&%:");
-                    }
-                        
-                }else{
-                    broadcast(message);
-                    System.out.println( conn + ": " + message );
-                }  
+		//parsing message, extreiem nick i posem al mapa
+        Pattern hasNick = Pattern.compile("&%hasNick'(.*?)'");
+        Matcher nickm = hasNick.matcher(message);
+        if(nickm.find()){
+			System.out.println(nickm.group(1));
+            if(mapa.containsKey(nickm.group(1))){
+                conn.send("&%BAD_NICKNAME");
+            } else{
+                conn.send("&%OK");
+                conn.setAttachment(nickm.group(1));
+                this.mapa.put(nickm.group(1), conn);
+                broadcast(nickm.group(1)+" ha entrat al Xat!"+"&%:");
+            }
+        } else{
+            broadcast(message);
+            System.out.println( conn + ": " + message );
+        }  
 	}
         
 	@Override
@@ -106,7 +99,6 @@ public class ChatServer extends WebSocketServer {
 		broadcast( message.array() );
 		System.out.println( conn + ": " + message );
 	}
-
 
 	public static void main( String[] args ) throws InterruptedException , IOException {
 		WebSocketImpl.DEBUG = true;

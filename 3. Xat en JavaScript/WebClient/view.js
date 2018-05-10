@@ -2,6 +2,7 @@ var messages = new Messages();
 var clientController;
 var textXat;
 var confirmed;
+
 //Aquesta funció s'executa un cop carregada la pàgina així podem obtenir tots els elements de la mateixa;
 function once_loaded(){
   //Amaguem el xat
@@ -55,7 +56,6 @@ function formatAMPM(date) {
     return strTime;
 }
 
-//-- No use time. It is a javaScript effect.
 function insertChat(who, text){
     //Funció que inserta la bombolla de xat.
     var control = "";
