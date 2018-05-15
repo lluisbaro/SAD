@@ -6,21 +6,24 @@
 package XatJavaServer;
 import XatJavaClient.MySocket;
 import java.io.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author jordimaripare
  */
 public class MyServerSocket extends ServerSocket {
 
-    public MyServerSocket(int port) throws IOException {
-    	try{
-    		super(port);
-    	} catch (IOException e){
-    		e.printStackTrace();
-    	}
+    public MyServerSocket(int port) {
+    	super();
+        InetAddress addr = InetAddress.getLocalHost();
+        InetSocketAddress addrSocket = new InetSocketAddress(addr, port);
+        super.bind(addrSocket);
     }
 
     @Override
