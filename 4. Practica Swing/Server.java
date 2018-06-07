@@ -38,11 +38,8 @@ public class Server {
                 }
                 log.info("Connection accepted");
 
-                //log.info("Cliente con la IP " + socket.getInetAddress().getHostName() + " conectado.");
-
                 ClientConnection cc = new ClientConnection(socket, messages, nick);
                 cc.start();
-
             }
         } finally {
             socket.close();

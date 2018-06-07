@@ -25,7 +25,6 @@ public class ServerConnection implements ActionListener {
         }
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         try {
             outputStream.writeUTF(user + ": " + tfMessage.getText());
